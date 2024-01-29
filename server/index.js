@@ -10,7 +10,8 @@ import router from './routes/message.js'
 
 
 //Configuracion mongoose
-let url = 'mongodb+srv://maicol:maicol997608@kuepa.qq1uoxh.mongodb.net/?retryWrites=true&w=majority'
+let url = `mongodb://localhost:27017/ChatKuepa`
+
 
 //para poder evitar posibles fallos en la coneccion a mongodb
 mongoose.Promise = global.Promise
@@ -55,6 +56,6 @@ io.on('connection', (socket) => {
 mongoose.connect(url, { useNewUrlParser: true }).then(() =>{  
     console.log('conectado a la base de datos')
     server.listen(PORT, () => {    
-        console.log('servidor ejecutandose en http://localhost:', PORT)
+        console.log('servidor ejecutandose en http://localhost:',PORT)
     })
 });
