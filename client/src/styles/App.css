@@ -77,13 +77,13 @@
 
 .ContainerMessages{ 
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 50px;
 }
 
 .NewMessage{    
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap:20px
 }
 
