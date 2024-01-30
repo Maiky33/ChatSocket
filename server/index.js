@@ -5,6 +5,7 @@ import http from 'http'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 import router from './routes/message.js'
 
 import routerUsers from './routes/users.js'
@@ -40,6 +41,7 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 /// enrrutador de mensajes
 app.use('/api', router)

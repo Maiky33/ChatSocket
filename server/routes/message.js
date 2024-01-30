@@ -1,5 +1,6 @@
 import express from 'express'
 import Controller from '../Controllers/message.js'
+import {authRequired} from '../middlewares/validateToken.js'
 
 const router = express.Router()
 

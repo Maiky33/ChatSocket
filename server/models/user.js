@@ -21,7 +21,9 @@ const UserSchema = new Schema({
         type: String,
         required:true
     } 
+},{ 
+    timestamps:true
 })
 
 //exportamos para podeer interactuar con la base de datos
-export default mongoose.model('User',UserSchema)
+export default mongoose.model('users',UserSchema)
