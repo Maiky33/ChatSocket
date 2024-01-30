@@ -1,13 +1,15 @@
 import express from 'express'
 import {login,register,logout,profile} from '../Controllers/users.js'
 import {authRequired} from '../middlewares/validateToken.js'
+import {validateSchema} from '../middlewares/validator.middleware.js'
+import { registerSchema,loginSchema } from "../schemas/auth.schema.js";
 const router = express.Router()
 
 // escribimos las rutas que vamos a usar y le pasamos la funcion desde los controladores
 //cuando se haga un peticion post a register se ejecuta "register"
-router.post('/register',register)
+router.post('/register',validateSchema(registerSchema),register)
 //cuando se haga un peticion post a login se ejecuta "login"
-router.post('/login',login)
+router.post('/login',validateSchema(loginSchema),login)
 //cuando se haga un peticion post a logout se ejecuta "logout"
 router.post('/logout',logout)
 
