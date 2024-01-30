@@ -7,6 +7,6 @@ export const validateSchema =(schema) => (req, res, next) => {
         next()
     }catch(error){   
         //si no sale bien, mostramos los mensages que estan puestos en el schema 
-        return res.status(400).json({error: error.errors.map(error => error.message)})
+        return res.status(400).json(error.errors.map(error => error.message))
     }
 }

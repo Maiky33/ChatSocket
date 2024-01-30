@@ -5,21 +5,20 @@ import { useState, useEffect } from "react";
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 
 import RegisterUser from "./pages/ReagisterPage";
-import LoginUser from "./pages/LoginPage";
 import ProfileClass from "./pages/ProfileClass";
-
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
 
   return (
-    <BrowserRouter> 
-      <Routes>  
-        <Route path="/" element={<RegisterUser/>}/>
-        <Route path="/login" element={<LoginUser/>}/>
-        <Route path="/profileclass" element={<ProfileClass/>}/>
-
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>  
+      <BrowserRouter> 
+        <Routes>  
+          <Route path="/" element={<RegisterUser/>}/>
+          <Route path="/profileclass" element={<ProfileClass/>}/>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

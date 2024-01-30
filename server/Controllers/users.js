@@ -8,6 +8,10 @@ export const register = async(req, res)=>{
 
   try{    
 
+    const userFound = await User.findOne({email})
+
+    if(userFound) return res.status(400).json(["The email is already in use"])
+
     //encriptamos la password con bcrypt
     const passwordhash = await bcrypt.hash(password,10)
     //usamos el Schema para crear el nuevo objeto con los parametro nuevos
