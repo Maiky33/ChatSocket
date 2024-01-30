@@ -6,17 +6,17 @@ const Controller = {
   //Funcion para guardar los mensajess
 
   save: (req, res) => {
-    //guardamos lo que resibimos
+    //guardamos los parametros que resibimos 
     let params = req.body;
 
-    //creamos una variable con el Schema importado de models
+    //creamos una variable con el Schema del mensaje, importado desde models, para poder modificarlo con los parametros que resivamos
     let message = new Message();
 
-    //damos valores al objeto
+    //damos valores al objeto message para que tome los valores resibidos 
     message.message = params.message;
     message.from = params.from;
 
-    //hacemos las consultas
+    //hacemos las consultas save para guardar el mensaje y hacemos las condicionales en caso de error, en caso de que no alla error mandamos el menssge (message === mesageStored)
     message.save((error, messageStored) => {
       if (error || !messageStored) {
         return res.status(404).send({

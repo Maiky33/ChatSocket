@@ -7,6 +7,9 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import router from './routes/message.js'
 
+import routerUsers from './routes/users.js'
+
+
 
 
 //Configuracion mongoose
@@ -25,6 +28,7 @@ const PORT = 4000
 
 //creamos el server y se lo pasamos a sockect.io
 const server = http.createServer(app) 
+//configuaramos las cors para poder entrar desde cualquier servidor
 const io = new SocketServer(server, {
     cors:{
         origin: '*'
@@ -36,15 +40,22 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+/// enrrutador de mensajes
 app.use('/api', router)
+/// enrrutador de usuarios
+app.use('/api', routerUsers)
 
 
+// vemos la coneccion de los clientes io.on
 io.on('connection', (socket) => {    
+
     console.log(socket.id)
     console.log('cliente conectado')
 
+    //escuchamos el evento "message"(traemos los valosres message , nickname)
     socket.on('message', (message, nickname) => {  
-        //envio al resto de clientes conectados
+        // emitimos los parametros que nos trae al resto de clientes conectados
         socket.broadcast.emit('message', {   
             body: message,
             from: nickname

@@ -18,42 +18,62 @@ function App() {
   const [Fristconnect, setFristconnect] = useState(false);
 
   useEffect(() => {
+    //cada vez que alguien envie un mensaje para que todos los Clientes puedan verlo aactualizado con el nuevo mensaje
+    // (Aqui actualizamos los mensaje para todos los clientes)
+    // creamos una funcion que recibe Message(el mensaje como parametro)
     const recivedMessage = (Message) => {
+      // seteamos los mensajes concatenando el mensaje resivido con los viejos
       setMessages([Message, ...Messages]);
     };
-
+    
+    // Escuchamos el evento "message", y le pasamos el mensaje (recivedMessage)
     Socket.on("message", recivedMessage);
 
+    //desuscribimos el evento(para dejar de escuchar el evento)
     return () => {
       Socket.off("message", recivedMessage);
     };
   }, [Messages]);
 
   if (!Fristconnect) {
+    //traemos la los mensajes la primera vez
     axios.get("http://localhost:4000/api/messages").then((res) => {
       setPreviewMessages(res.data.messages);
-      setMessage(res.data.messages);
+      if(res?.data?.messages){ 
+        setMessage("");
+      }else{  
+        setMessage(res?.data?.messages);
+      }
     });
+
+    // ponemos en true la validacion para que no vuelva a ejecutarse 
     setFristconnect(true);
   }
 
   const MessageSubmit = (e) => {
     e.preventDefault();
     if (Nickname !== "") {
+      //emitimos (enviamos) en el evento "message", con los parametros que recibe en este caso Message y nickName
       Socket.emit("message", Message, Nickname);
 
+      // al momento de enviar el mensaje lo enviamos con el from yo, para verlo en frontend, en el backend se guarda con el nickname agregado
       const newMessage = {
         body: Message,
         from: "yo",
       };
+
+    // (Aqui actualizamos el mensaje para el user)
+      // seteamos los mensajes y concatenamos con el mensaje nuevo
       setMessages([newMessage, ...Messages]);
       setMessage("");
 
-      //peticion http por Post para guardar mensaje en Db
+      
+      //Hacemos la peticion http por Post para guardar mensaje en la base de datos con el nickname correcto
       axios.post("http://localhost:4000/api/save", {
         message: Message,
         from: Nickname,
       });
+
     } else {
       alert("Necesitas un nickname para enviar un mensaje");
     }
@@ -141,6 +161,7 @@ function App() {
                     className="MessageInput"
                     placeholder="message..."
                     id="nickname"
+                    value={Message}
                   />
                   <button className="ButtonName">Enviar</button>
                 </div>
