@@ -106,7 +106,7 @@ function App() {
             <div className="ChatBody">
               <div className="ContainerMessages">
                 <div className="NewMessage">
-                  {Messages.map((message, index) => (
+                  {Messages?.map((message, index) => (
                     <div
                       className={
                         message.from === "yo" ? "MessageYOU" : "Messageother"
@@ -122,7 +122,7 @@ function App() {
 
                 <small>... Mensajes Guardados ...</small>
 
-                {PreviewMessages.map((message, index) => (
+                {PreviewMessages?.map((message, index) => (
                   <div
                     className={
                       message.from === Nickname? "MessageYOU"  : "Messageother"
