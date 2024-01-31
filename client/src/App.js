@@ -7,7 +7,8 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import RegisterUser from "./pages/ReagisterPage";
 import ProfileClass from "./pages/ProfileClass";
 import { AuthProvider } from "./context/AuthContext";
-
+import ProtectedRoute from "./pages/ProtectedRoute";
+ 
 function App() {
 
   return (
@@ -15,7 +16,10 @@ function App() {
       <BrowserRouter> 
         <Routes>  
           <Route path="/" element={<RegisterUser/>}/>
-          <Route path="/profileclass" element={<ProfileClass/>}/>
+
+          <Route element={<ProtectedRoute/>}> 
+            <Route path="/profileclass" element={<ProfileClass/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

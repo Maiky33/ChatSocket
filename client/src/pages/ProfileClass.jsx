@@ -48,6 +48,7 @@ function ProfileClass() {
         setMessage(res?.data?.messages);
       }
     });
+    setNickname(user?.userName)
     setFristconnect(true);
   }
 
