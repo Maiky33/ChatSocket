@@ -31,7 +31,10 @@ export const register = async(req, res)=>{
     })
 
     //lo guardamos en una cookie
-    res.cookie('token',token)
+    res.cookie("token", token, {
+      secure: true,
+      sameSite: "none",
+    });
 
     //devolvemos al frontend el user sin la password
     res.json({  
@@ -75,7 +78,10 @@ export const login = async(req, res)=> {
     })
 
     //lo guardamos en una cookie
-    res.cookie('token',token)
+    res.cookie("token", token, {
+      secure: true,
+      sameSite: "none",
+    });
 
     //devolvemos al frontend el user sin la password
     res.json({  

@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect} from "react";
-import {registeRequest,loginRequest,findUser} from "../api/auth.js";
-
+import {registerRequest,loginRequest,findUser} from "../api/auth.js";
+import Cookies from 'js-cookie'
 export const AuthContext = createContext()
 
 
@@ -23,7 +23,7 @@ export const AuthProvider = ({children})=>{
 
     const SingUp = async(values)=>{  
         try{    
-            const res = await registeRequest(values)
+            const res = await registerRequest(values)
             setUser(res.data)
             setisAuthenticated(true)
         }catch(error){   
@@ -38,12 +38,20 @@ export const AuthProvider = ({children})=>{
             setUser(res.data)
             setisAuthenticated(true)
         }catch(error){   
-            if(Array.isArray(error.response.data)){ 
-                return setErrors(error.response.data)
+            if(Array.isArray(error?.response?.data)){ 
+                return setErrors(error?.response?.data)
             }
-            setErrors([error.response.data.message])
+            setErrors([error?.response?.data?.message])
         }
     }
+
+    useEffect(()=>{ 
+        const cookies = Cookies.get()
+        console.log(cookies)
+        if(cookies?.token){ 
+            console.log(cookies?.token)
+        }
+    },[])
 
     return( 
         <AuthContext.Provider   

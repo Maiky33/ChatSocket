@@ -32,12 +32,17 @@ const server = http.createServer(app)
 //configuaramos las cors para poder entrar desde cualquier servidor
 const io = new SocketServer(server, {
     cors:{
-        origin: '*'
+        origin: '*',
+        credentials:true,
+        
     }
 })
 
 //middlewares
-app.use(cors())
+app.use(cors({
+    origin: '*',
+    credentials:true
+}));
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

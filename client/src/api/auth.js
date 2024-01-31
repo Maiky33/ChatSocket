@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const API = 'http://localhost:4000/api'
+let API = 'http://localhost:4000'
 
-//funcion para hacer la peticion a la base de datos
-export const registeRequest = user => axios.post(`${API}/register`, user)
-export const loginRequest = user => axios.post(`${API}/login`, user)
+export const registerRequest = async (user) => axios.post(`${API}/api/register`, user);
+
+export const loginRequest = async (user) => axios.post(`${API}/api/login`, user);
+
+// export const verifyTokenRequest = async () => axios.get(`api/verify`);
