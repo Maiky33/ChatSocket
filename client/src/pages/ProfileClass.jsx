@@ -1,9 +1,9 @@
-import "../styles/App.css";
 import io from "socket.io-client";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useAuth } from "../context/AuthContext";
+import "./Styles/App.css";
 
 //Coneccion para escuchar y eviar los elementos
 
@@ -18,7 +18,7 @@ function ProfileClass() {
   const [PreviewMessages, setPreviewMessages] = useState([]);
   const [Fristconnect, setFristconnect] = useState(false);
 
-  const {user} = useAuth() 
+  const {user,LogOut} = useAuth() 
 
   useEffect(() => {
     //cada vez que alguien envie un mensaje para que todos los Clientes puedan verlo aactualizado con el nuevo mensaje
@@ -82,78 +82,86 @@ function ProfileClass() {
   };
 
   return (
-    <>
-      <h1 className="Title">Virtual Class</h1>
-      <div className="App">
-        <div className="AppVideo">
-          <ReactPlayer
-            controls={true}
-            muted
-            playing
-            loop
-            width={700}
-            height={500}
-            url="https://www.youtube.com/watch?v=PDllC05gXAA&pp=ygUMY2xhc2UgaW5nbGVz"
-          />
+    
+    <div className="App">
+        <div className="ContainerTitleLogOut"> 
+          <div className="title"> 
+            Kuepa
+          </div>
+
+          <button onClick={()=>LogOut()} className="logOut">  
+            LogOut
+          </button>
         </div>
-        <div className="=ContainerForm">
-          <div className="Chat">
-            <h5>Chat</h5>
-            <div className="ChatBody">
-              <div className="ContainerMessages">
-                <div className="NewMessage">
-                  {Messages?.map((message, index) => (
+        <div className="ContainerVideoAndChat"> 
+          <div className="AppVideo">
+            <ReactPlayer
+              controls={true}
+              muted
+              playing
+              width={"auto"}
+              loop
+              url="https://www.youtube.com/watch?v=PDllC05gXAA&pp=ygUMY2xhc2UgaW5nbGVz"
+            />
+          </div>
+          <div className="=ContainerForm">
+            <div className="Chat">
+              <div className="ChatBody">
+                <div className="ContainerMessages">
+                  <div className="NewMessage">
+                    {Messages?.map((message, index) => (
+                      <div
+                        className={
+                          message.from === "yo" ? "MessageYOU" : "Messageother"
+                        }
+                        key={index}
+                      >
+                        <p>
+                          {message.from}: {message.body}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <small>... Mensajes Guardados ...</small>
+
+                  {PreviewMessages?.map((message, index) => (
                     <div
                       className={
-                        message.from === "yo" ? "MessageYOU" : "Messageother"
+                        message.from === Nickname? "MessageYOU"  : "Messageother"
                       }
                       key={index}
                     >
                       <p>
-                        {message.from}: {message.body}
+                        {message.from}: {message.message}
                       </p>
                     </div>
                   ))}
                 </div>
-
-                <small>... Mensajes Guardados ...</small>
-
-                {PreviewMessages?.map((message, index) => (
-                  <div
-                    className={
-                      message.from === Nickname? "MessageYOU"  : "Messageother"
-                    }
-                    key={index}
-                  >
-                    <p>
-                      {message.from}: {message.message}
-                    </p>
-                  </div>
-                ))}
               </div>
-            </div>
 
-            <div className="InputsForm">
-              {/*Formulario*/}
+              <div className="InputsForm">
+                {/*Formulario*/}
 
-              <form onSubmit={MessageSubmit}>
-                <div className="ContainerButtonInput">
-                  <input
-                    onChange={(e) => setMessage(e.target.value)}
-                    type="text"
-                    className="MessageInput"
-                    placeholder="message..."
-                    id="nickname"
-                    value={Message}
-                  />
-                  <button className="ButtonName">Enviar</button>
-                </div>
-              </form>
+                <form onSubmit={MessageSubmit}>
+                  <div className="ContainerButtonInput">
+                    <input
+                      onChange={(e) => setMessage(e.target.value)}
+                      type="text"
+                      className="MessageInput"
+                      placeholder="message..."
+                      id="nickname"
+                      value={Message}
+                    />
+                    <button className="ButtonName">Enviar</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
+    </div>
+    
   );
 }
 

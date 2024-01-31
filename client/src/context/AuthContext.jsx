@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect} from "react";
-import {registerRequest,loginRequest,findUser} from "../api/auth.js";
+import {registerRequest,loginRequest,logOutRequest} from "../api/auth.js";
 import Cookies from 'js-cookie'
 export const AuthContext = createContext()
 
@@ -45,6 +45,19 @@ export const AuthProvider = ({children})=>{
         }
     }
 
+    const LogOut = async()=>{
+        try{    
+            const res = await logOutRequest()
+            setUser(res.data)
+            setisAuthenticated(false)
+        }catch(error){   
+            if(Array.isArray(error?.response?.data)){ 
+                return setErrors(error?.response?.data)
+            }
+            setErrors([error?.response?.data?.message])
+        }
+    }
+
     useEffect(()=>{ 
         const cookies = Cookies.get()
         console.log(cookies)
@@ -59,6 +72,7 @@ export const AuthProvider = ({children})=>{
                 SingUp,
                 SingIn,
                 user,
+                LogOut,
                 isAuthenticated,
                 Errors
             }}>  
