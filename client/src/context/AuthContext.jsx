@@ -1,5 +1,5 @@
-import { createContext, useState, useContext} from "react";
-import {registeRequest} from "../api/auth.js";
+import { createContext, useState, useContext, useEffect} from "react";
+import {registeRequest,loginRequest,findUser} from "../api/auth.js";
 
 export const AuthContext = createContext()
 
@@ -24,10 +24,24 @@ export const AuthProvider = ({children})=>{
     const SingUp = async(values)=>{  
         try{    
             const res = await registeRequest(values)
-            console.log(res.data)
+            setUser(res.data)
             setisAuthenticated(true)
         }catch(error){   
+            
             setErrors(error.response.data)
+        }
+    }
+
+    const SingIn = async(values)=>{
+        try{    
+            const res = await loginRequest(values)
+            setUser(res.data)
+            setisAuthenticated(true)
+        }catch(error){   
+            if(Array.isArray(error.response.data)){ 
+                return setErrors(error.response.data)
+            }
+            setErrors([error.response.data.message])
         }
     }
 
@@ -35,6 +49,7 @@ export const AuthProvider = ({children})=>{
         <AuthContext.Provider   
             value={{
                 SingUp,
+                SingIn,
                 user,
                 isAuthenticated,
                 Errors

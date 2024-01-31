@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
+import { useAuth } from "../context/AuthContext";
 
 //Coneccion para escuchar y eviar los elementos
 
@@ -16,6 +17,8 @@ function ProfileClass() {
 
   const [PreviewMessages, setPreviewMessages] = useState([]);
   const [Fristconnect, setFristconnect] = useState(false);
+
+  const {user} = useAuth() 
 
   useEffect(() => {
     //cada vez que alguien envie un mensaje para que todos los Clientes puedan verlo aactualizado con el nuevo mensaje
@@ -45,8 +48,6 @@ function ProfileClass() {
         setMessage(res?.data?.messages);
       }
     });
-
-    // ponemos en true la validacion para que no vuelva a ejecutarse 
     setFristconnect(true);
   }
 
@@ -77,12 +78,6 @@ function ProfileClass() {
     } else {
       alert("Necesitas un nickname para enviar un mensaje");
     }
-  };
-
-  const NiknameSubmit = (e) => {
-    e.preventDefault();
-    setNickname(Nickname);
-    setDisable(true);
   };
 
   return (
@@ -139,19 +134,6 @@ function ProfileClass() {
 
             <div className="InputsForm">
               {/*Formulario*/}
-              <form onSubmit={NiknameSubmit}>
-                <div  className="ContainerButtonInput">
-                  <input
-                    disabled={Disable}
-                    onChange={(e) => setNickname(e.target.value)}
-                    type="text"
-                    className="NikNameInput"
-                    placeholder="Nickname..."
-                    id="nickname"
-                  />
-                  <button className="ButtonName">Confirmar</button>
-                </div>
-              </form>
 
               <form onSubmit={MessageSubmit}>
                 <div className="ContainerButtonInput">

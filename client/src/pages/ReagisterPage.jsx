@@ -14,13 +14,19 @@ import { useNavigate } from "react-router-dom";
 function RegisterUser() {
 
   const {register,handleSubmit,formState:{errors}} = useForm()
-  const {SingUp,isAuthenticated,Errors} = useAuth()
+  const {SingUp,SingIn,isAuthenticated,Errors} = useAuth()
 
   const [formState, setformState] = useState(false)
 
   const navigate = useNavigate()
+
+  
   const OnsubmitRegister = handleSubmit(async(values) =>{  
-    SingUp(values)
+    if(formState){
+      SingIn(values)
+    }else{
+      SingUp(values)
+    }
   })
 
   const onSubmitSingUp =()=>{ 
