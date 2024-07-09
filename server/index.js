@@ -14,7 +14,7 @@ import routerUsers from './routes/users.js'
 
 
 //Configuracion mongoose
-let url = `mongodb://localhost:27017/ChatKuepa`
+let url = `mongodb://localhost:27017/ChatSocket`
 
 
 //para poder evitar posibles fallos en la coneccion a mongodb
@@ -32,21 +32,20 @@ const server = http.createServer(app)
 //configuaramos las cors para poder entrar desde cualquier servidor
 const io = new SocketServer(server, {
     cors:{
-        origin: '*',
+        origin: 'http://localhost:3000',
         credentials:true,
-        
     }
 })
 
+app.use(cookieParser())
 //middlewares
 app.use(cors({
-    origin: '*',
-    credentials:true
+    origin: 'http://localhost:3000',
+    credentials: true, // Esto permite el envío de cookies
 }));
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cookieParser())
 
 /// enrrutador de mensajes
 app.use('/api', router)

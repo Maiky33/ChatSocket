@@ -5,6 +5,7 @@ import ReactPlayer from "react-player";
 import { useAuth } from "../context/AuthContext";
 import "./Styles/App.css";
 
+
 //Coneccion para escuchar y eviar los elementos
 
 const Socket = io("http://localhost:4000");
@@ -86,7 +87,7 @@ function ProfileClass() {
     <div className="App">
         <div className="ContainerTitleLogOut"> 
           <div className="title"> 
-            Kuepa
+            ChatSocket
           </div>
 
           <button onClick={()=>LogOut()} className="logOut">  

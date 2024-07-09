@@ -62,6 +62,9 @@ export const login = async(req, res)=> {
     if(!UserFound) return res.status(400).json({message:"User not found"})
     
     //comparamos la password que nos pasan por params con la password que esta guardada en la base de datos
+    console.log("password req.body",password)
+    console.log("password UserFound.password",UserFound.password)
+
     const isMatch = await bcrypt.compare(password,UserFound.password)
 
     //si no coinciden las contraseñas enviamos el status
@@ -74,8 +77,14 @@ export const login = async(req, res)=> {
       id:UserFound._id
     })
 
+    const cookieOptions = {
+      httpOnly: true, // Solo accesible desde el servidor
+      secure: process.env.NODE_ENV === 'production', // Solo en HTTPS si está en producción
+      maxAge: 24 * 60 * 60 * 1000 // 1 día de expiración
+    };
+
     //lo guardamos en una cookie
-    res.cookie("token", token);
+    res.cookie("token", token, cookieOptions);
 
     //devolvemos al frontend el user sin la password
     res.json({  
@@ -91,26 +100,47 @@ export const login = async(req, res)=> {
 
 
   //respuesta que devolvemos
-  res.send('registrando')
+  res.send('logeado')
 }
 
 export const logout = async(req, res)=>{
-  res.cookie('token',"", {expires: new Date(0)})
+  res.cookie('token','', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(0) // Fecha de expiración en el pasado
+  })
   return res.sendStatus(200)
 }
 
-export const profile = async(req,res)=>{
-  //con el req.user.id que resivimos de la verificacion del token, buscamos el objeto que tenga ese mismo ID en la base de datos(la coleccion users)
-  const UserByToken = await User.findById(req.user.id)
-  //si no existe el user retornamos un status
-  if(!UserByToken) return res.status(400).json({message:"User not found"})
+export const relogin = async(req,res)=>{
 
-  // si existe un user retornamos el usuario
-  return res.json({ 
-    id:UserByToken._id,
-    userName:UserByToken.userName,
-    email:UserByToken.email,
-    createAt:UserByToken.createdAt,
-    updatedAt:UserByToken.updatedAt,
-  })
+  try {
+    // El middleware authRequired verifica el token y añade el usuario al req.user
+    const user = await User.findById(req.user.id);
+
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    // Genera un nuevo token de acceso
+    const newToken = await CreateAccessToken({ id: user._id });
+
+    const cookieOptions = {
+      httpOnly: true, // Solo accesible desde el servidor
+      secure: process.env.NODE_ENV === 'production', // Solo en HTTPS si está en producción
+      maxAge: 24 * 60 * 60 * 1000 // 1 día de expiración
+    };
+
+    // Guarda el nuevo token en una cookie
+    res.cookie("token", newToken, cookieOptions);
+
+    // Devuelve el usuario sin la contraseña
+    res.json({
+      id: user._id,
+      userName: user.userName,
+      email: user.email,
+      createAt: user.createdAt,
+      updatedAt: user.updatedAt
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
