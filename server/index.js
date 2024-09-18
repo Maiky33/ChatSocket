@@ -78,15 +78,16 @@ io.on('connection', (socket) => {
     })
 })
 
+
 //conneccion a la Db y ecuchamos la aplicacion atravez del puerto 4000
 mongoose.connect(url, { useNewUrlParser: true }).then(() =>{  
     console.log('conectado a la base de datos')
+    app.get('/', (req, res) => {
+        res.send('Server is running');
+    });
     server.listen(PORT, () => {    
         console.log('Server is running')
     })
 });
 
 
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
