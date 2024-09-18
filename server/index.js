@@ -40,8 +40,10 @@ const io = new SocketServer(server, {
 app.use(cookieParser())
 //middlewares
 app.use(cors({
-    origin: 'https://chat-socket-client.vercel.app',
-    credentials: true, // Esto permite el envío de cookies
+    // origin: 'https://chat-socket-client.vercel.app',
+    // credentials: true, // Esto permite el envío de cookies
+    origin: true,  // Permitir cualquier origen
+    credentials: true,
 }));
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
