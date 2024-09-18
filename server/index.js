@@ -73,6 +73,6 @@ io.on('connection', (socket) => {
 mongoose.connect(url, { useNewUrlParser: true }).then(() =>{  
     console.log('conectado a la base de datos')
     server.listen(PORT, () => {    
-        console.log('servidor ejecutandose en http://localhost:',PORT)
+        console.log('servidor ejecutandose')
     })
 });

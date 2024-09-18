@@ -8,7 +8,7 @@ import "./Styles/App.css";
 
 //Coneccion para escuchar y eviar los elementos
 
-const Socket = io("http://localhost:4000");
+const Socket = io("https://chat-socket-server-nu.vercel.app");
 
 function ProfileClass() {
   const [Nickname, setNickname] = useState("");
@@ -40,7 +40,7 @@ function ProfileClass() {
 
   if (!Fristconnect) {
     //traemos la los mensajes la primera vez
-    axios.get("http://localhost:4000/api/messages").then((res) => {
+    axios.get("https://chat-socket-server-nu.vercel.app/api/messages").then((res) => {
       setPreviewMessages(res.data.messages);
       if(res?.data?.messages){ 
         setMessage("");
@@ -71,7 +71,7 @@ function ProfileClass() {
 
       
       //Hacemos la peticion http por Post para guardar mensaje en la base de datos con el nickname correcto
-      axios.post("http://localhost:4000/api/save", {
+      axios.post("https://chat-socket-server-nu.vercel.app/api/save", {
         message: Message,
         from: Nickname,
       });
