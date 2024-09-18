@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let API = 'http://localhost:4000'
+let API = 'https://chat-socket-server-nu.vercel.app'
 
 export const registerRequest = async (user) => axios.post(`${API}/api/register`, user,{
     withCredentials: true // Esto incluye las cookies en la solicitud

@@ -14,7 +14,7 @@ import routerUsers from './routes/users.js'
 
 
 //Configuracion mongoose
-let url = `mongodb://localhost:27017/ChatSocket`
+let url = `mongodb://atlas-sql-66d12a92d13577029747c09f-ljujc.a.query.mongodb.net/ChatSocket?ssl=true&authSource=admin`
 
 
 //para poder evitar posibles fallos en la coneccion a mongodb
@@ -32,7 +32,7 @@ const server = http.createServer(app)
 //configuaramos las cors para poder entrar desde cualquier servidor
 const io = new SocketServer(server, {
     cors:{
-        origin: 'http://localhost:3000',
+        origin: 'https://chat-socket-client.vercel.app',
         credentials:true,
     }
 })
@@ -40,7 +40,7 @@ const io = new SocketServer(server, {
 app.use(cookieParser())
 //middlewares
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://chat-socket-client.vercel.app',
     credentials: true, // Esto permite el envío de cookies
 }));
 app.use(morgan('dev'))
