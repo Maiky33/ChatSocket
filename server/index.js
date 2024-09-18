@@ -81,10 +81,10 @@ mongoose.connect(url, { useNewUrlParser: true }).then(() =>{
     console.log('conectado a la base de datos')
     server.listen(PORT, () => {    
         console.log('Server is running')
-        app.get('/', (req, res) => {
-            res.send('Server is running');
-        });
     })
 });
 
 
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
