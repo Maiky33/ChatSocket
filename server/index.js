@@ -52,6 +52,13 @@ app.use('/api', router)
 /// enrrutador de usuarios
 app.use('/api', routerUsers)
 
+app.use((req, res, next) => {
+    res.setHeader(
+      'Content-Security-Policy',
+      "default-src 'self'; img-src 'self' https://chat-socket-server-nu.vercel.app;"
+    );
+    next();
+});
 
 // vemos la coneccion de los clientes io.on
 io.on('connection', (socket) => {    
@@ -73,6 +80,11 @@ io.on('connection', (socket) => {
 mongoose.connect(url, { useNewUrlParser: true }).then(() =>{  
     console.log('conectado a la base de datos')
     server.listen(PORT, () => {    
-        console.log('servidor ejecutandose')
+        console.log('Server is running')
+        app.get('/', (req, res) => {
+            res.send('Server is running');
+        });
     })
 });
+
+
