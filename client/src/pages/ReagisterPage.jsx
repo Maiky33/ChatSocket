@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useCallback} from "react";
 import { useForm } from "react-hook-form";
 import "./Styles/registerStyle.css";
 import LogoRegister from "../images/LogoRegister.png"
