@@ -13,7 +13,6 @@ const Socket = io("http://localhost:4000");
 function ProfileClass() {
   const [Nickname, setNickname] = useState("");
   const [Message, setMessage] = useState("");
-  const [Disable, setDisable] = useState(false);
   const [Messages, setMessages] = useState([]);
 
   const [PreviewMessages, setPreviewMessages] = useState([]);

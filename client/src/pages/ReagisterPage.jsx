@@ -1,6 +1,3 @@
-
-import io from "socket.io-client";
-import axios from "axios";
 import { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "./Styles/registerStyle.css";
@@ -44,13 +41,17 @@ function RegisterUser() {
 
   useEffect(()=>{ 
     reloginverifyToken()
-  },[])
+  },[reloginverifyToken])
 
-  useEffect(()=>{ 
-    if(isAuthenticated){  
-      navigate('/profileclass')
+  const handleNavigation = useCallback(() => {
+    if (isAuthenticated) {
+      navigate('/profileclass');
     }
-  },[isAuthenticated])
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    handleNavigation();
+  }, [handleNavigation]);
 
   return (
     <div className="ContainerFromRegisterImage">   
