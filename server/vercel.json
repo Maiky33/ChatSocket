@@ -1,15 +1,25 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server/index.js",
-      "use": "@vercel/node"
+    "version": 2,
+    "builds": [
+      {
+        "src": "server/index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/server/index.js",
+        "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
+        ]
+      }
+    ],
+    "env": {
+      "MONGO_URL": "mongodb://atlas-sql-66d12a92d13577029747c09f-ljujc.a.query.mongodb.net/ChatSocket?ssl=true&authSource=admin"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/server/index.js"
-    }
-  ]
-}
+  }
