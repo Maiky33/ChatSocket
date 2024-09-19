@@ -31,9 +31,7 @@ const Controller = {
     });
   },
 
-  //funcion para obtener todos los mensajes
   getMessages: (req, res) => {
-    // Encuentra todos los mensajes y aplica sort antes de llamar a exec
     Message.find({})
       .select('message from')
       .sort('-_id')
