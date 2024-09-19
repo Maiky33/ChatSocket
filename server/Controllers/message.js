@@ -33,31 +33,30 @@ const Controller = {
 
   //funcion para obtener todos los mensajes
   getMessages: (req, res) => {
-
-    const allmessages = Message.find({}).select('message from').lean()
-
-    allmessages.sort("-_id").exec((error, messages) => {
-      if (error) {
-        return res.status(500).send({
-          status: "error",
-          message: "Error al extraer los datos",
-        });
-      }
-      //Si no existen artículos:
-      if (!messages) {
-        return res.status(404).send({
-          status: "error",
-          message: "No hay mensajes para mostrar",
-        });
-      }
-      return res.status(200).send({
-        status: "success",
-        messages
+    // Encuentra todos los mensajes y aplica sort antes de llamar a exec
+    Message.find({})
+      .select('message from')
+      .sort('-_id')
+      .exec((error, messages) => {
+          if (error) {
+              return res.status(500).send({
+                  status: "error",
+                  message: "Error al extraer los datos",
+              });
+          }
+          // Si no existen mensajes:
+          if (!messages || messages.length === 0) {
+              return res.status(404).send({
+                  status: "error",
+                  message: "No hay mensajes para mostrar",
+              });
+          }
+          return res.status(200).send({
+              status: "success",
+              messages
+          });
       });
-    });
-
-    
-  },
+  }
 };
 
 export default Controller;
