@@ -1,35 +1,31 @@
 import jwt from 'jsonwebtoken'
 import {TOKEN_SECRET} from '../config.js'
 
-//funcion para validar si hay token
-export const authRequired = (req,res,next) =>{   
-
+export const authRequired = (req, res, next) => {   
     const cookieHeader = req.headers.cookie;
-
+  
     if (cookieHeader) {
-        const cookies = cookieHeader.split('; ').reduce((acc, cookie) => {
+      const cookies = cookieHeader.split('; ').reduce((acc, cookie) => {
         const [name, value] = cookie.split('=');
         acc[name] = value;
         return acc;
-        }, {});
-        
-
-        //Nos traemos el token de los headers que lo resivimos por req
-        const {token} = cookies
-        //Si no hay token negamos la entrada
-        if(!token) res.status(401).json({message:"No token, authorization denied"})
-
-        // si hay token verificamos el token, con el TOKEN_SECRET y hacemos un callback para enviar respuesta
-        jwt.verify(token, TOKEN_SECRET, (err, user)=>{  
-            //si hay algun error invalidamos el token 
-            if(err) return res.status(403).json({message:"Invalid token"})
-
-            //si todo sale bien devolvemos el usuario que tiene ese token, // a req para resivirlo en la funcion "profile"
-            req.user = user
-            
-            next()
-        })
+      }, {});
+  
+      const token = cookies.token;
+  
+      // Si no hay token, responder con 401
+      if (!token) return res.status(401).json({ message: "No token, authorization denied" });
+  
+      jwt.verify(token, TOKEN_SECRET, (err, user) => {  
+        // Si hay algún error, responder con 403
+        if (err) return res.status(403).json({ message: "Invalid token" });
+  
+        // Si todo está bien, añadir el usuario al req y pasar al siguiente middleware
+        req.user = user;
+        next();
+      });
+    } else {
+      // Si no hay cabecera de cookies, responder con 401
+      return res.status(401).json({ message: "No token, authorization denied" });
     }
-    
-
-}
+  };
