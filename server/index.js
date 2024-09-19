@@ -14,7 +14,7 @@ import routerUsers from './routes/users.js'
 
 
 //Configuracion mongoose
-let url = `mongodb://atlas-sql-66d12a92d13577029747c09f-ljujc.a.query.mongodb.net/ChatSocket?ssl=true&authSource=admin`
+let url = `mongodb+srv://maicol:root1234@cluster0.ljujc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 
 //para poder evitar posibles fallos en la coneccion a mongodb
