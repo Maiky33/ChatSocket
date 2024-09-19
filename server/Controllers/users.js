@@ -101,7 +101,7 @@ export const login = async(req, res)=> {
 
 
     //devolvemos al frontend el user sin la password
-    res.json({  
+    return res.json({  
       id:UserFound._id,
       userName:UserFound.userName,
       email:UserFound.email,
@@ -109,12 +109,8 @@ export const login = async(req, res)=> {
       updatedAt:UserFound.updatedAt,
     })
   }catch(error){   
-    res.status(500).json({message: error.message})
+    return res.status(500).json({message: error.message})
   }
-
-
-  //respuesta que devolvemos
-  res.send('logeado')
 }
 
 export const logout = async(req, res)=>{
@@ -151,7 +147,7 @@ export const relogin = async(req,res)=>{
     res.cookie("token", newToken, cookieOptions);
 
     // Devuelve el usuario sin la contraseña
-    res.json({
+    return res.json({
       id: user._id,
       userName: user.userName,
       email: user.email,
@@ -159,6 +155,6 @@ export const relogin = async(req,res)=>{
       updatedAt: user.updatedAt
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 }
