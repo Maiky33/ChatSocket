@@ -30,6 +30,8 @@ export const register = async(req, res)=>{
       id:userSaved._id
     })
 
+    console.log('token al crearse',token)
+
     const cookieOptions = {
       httpOnly: true,
       secure: true, 
@@ -41,6 +43,7 @@ export const register = async(req, res)=>{
     //lo guardamos en una cookie
     res.cookie('token', token, cookieOptions);
 
+    console.log('respuesta del res.cookie',res.cookie('token', token, cookieOptions))
     //devolvemos al frontend el user sin la password
     return res.json({  
       id:userSaved._id,
