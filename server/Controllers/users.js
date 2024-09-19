@@ -65,25 +65,17 @@ export const login = async(req, res)=> {
 
     //si no se encuentra el email repondemos con status
     if(!UserFound) return res.status(400).json({message:"User not found"})
-    
-    //comparamos la password que nos pasan por params con la password que esta guardada en la base de datos
-    console.log("password req.body",password)
-    console.log("password UserFound.password",UserFound.password)
 
     const isMatch = await bcrypt.compare(password,UserFound.password)
 
     //si no coinciden las contraseñas enviamos el status
     if(!isMatch) return res.status(400).json({message:"Incorrect Password"})
 
-    
     //creamos el token 
     const token = await CreateAccessToken({ 
       //le decimos el parametro que queremos guardar dentro del token
       id:UserFound._id
     })
-
-    console.log('token al crearse',token)
-
 
     const cookieOptions = {
       httpOnly: true,
@@ -95,8 +87,9 @@ export const login = async(req, res)=> {
     
 
     //lo guardamos en una cookie
-    res.cookie("token", token, cookieOptions);
+    const resscoo = res.cookie("token", token, cookieOptions);
 
+    console.log('resscoo',resscoo)
 
 
     //devolvemos al frontend el user sin la password
