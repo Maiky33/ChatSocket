@@ -31,10 +31,10 @@ export const register = async(req, res)=>{
     })
 
     //lo guardamos en una cookie
-    res.cookie("token", token);
+    res.cookie('token', token, { httpOnly: true });
 
     //devolvemos al frontend el user sin la password
-    res.json({  
+    return res.json({  
       id:userSaved._id,
       userName:userSaved.userName,
       email:userSaved.email,
@@ -43,12 +43,8 @@ export const register = async(req, res)=>{
     })
   }catch(error){   
     console.log("error",error)
-    res.status(500).json({message: error.message})
+    return res.status(500).json({message: error.message})
   }
-
-
-  //respuesta que devolvemos
-  res.send('registrando')
 } 
 
 export const login = async(req, res)=> { 
