@@ -34,7 +34,7 @@ export const register = async(req, res)=>{
       httpOnly: true,
       secure: true, 
       sameSite: 'None',
-      domain:"https://chat-socket-client.vercel.app/",
+      domain:"https://chat-socket-client.vercel.app",
       maxAge: 24 * 60 * 60 * 1000,
     };
 
@@ -86,7 +86,7 @@ export const login = async(req, res)=> {
       httpOnly: true,
       secure: true, 
       sameSite: 'None',
-      domain:"https://chat-socket-client.vercel.app/",
+      domain:"https://chat-socket-client.vercel.app",
       maxAge: 24 * 60 * 60 * 1000,
     };
 
@@ -117,7 +117,7 @@ export const logout = async(req, res)=>{
     httpOnly: true,
     secure: true, 
     sameSite: 'None',
-    domain:"https://chat-socket-client.vercel.app/",
+    domain:"https://chat-socket-client.vercel.app",
     maxAge: 24 * 60 * 60 * 1000,
   };
 
@@ -140,7 +140,7 @@ export const relogin = async(req,res)=>{
       httpOnly: true,
       secure: true, 
       sameSite: 'None',
-      domain:"https://chat-socket-client.vercel.app/",
+      domain:"https://chat-socket-client.vercel.app",
       maxAge: 24 * 60 * 60 * 1000,
     };
 
