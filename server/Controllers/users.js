@@ -80,17 +80,12 @@ export const login = async(req, res)=> {
     const cookieOptions = {
       httpOnly: true,
       secure: true, 
-      sameSite: 'None',
+      sameSite: 'Lax',
       maxAge: 24 * 60 * 60 * 1000,
     };
 
-    
-
     //lo guardamos en una cookie
-    const resscoo = res.cookie("token", token, cookieOptions);
-
-    console.log('resscoo',resscoo)
-
+    res.cookie("token", token, cookieOptions);
 
     //devolvemos al frontend el user sin la password
     return res.json({  
