@@ -30,8 +30,15 @@ export const register = async(req, res)=>{
       id:userSaved._id
     })
 
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000,
+    };
+
     //lo guardamos en una cookie
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, cookieOptions);
 
     //devolvemos al frontend el user sin la password
     return res.json({  
@@ -75,10 +82,13 @@ export const login = async(req, res)=> {
     })
 
     const cookieOptions = {
-      httpOnly: true, // Solo accesible desde el servidor
-      secure: process.env.NODE_ENV === 'production', // Solo en HTTPS si está en producción
-      maxAge: 24 * 60 * 60 * 1000 // 1 día de expiración
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000,
     };
+
+    
 
     //lo guardamos en una cookie
     res.cookie("token", token, cookieOptions);
@@ -101,11 +111,14 @@ export const login = async(req, res)=> {
 }
 
 export const logout = async(req, res)=>{
-  res.cookie('token','', {
+  const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    expires: new Date(0) // Fecha de expiración en el pasado
-  })
+    secure: true, 
+    sameSite: 'None',
+    maxAge: 24 * 60 * 60 * 1000,
+  };
+
+  res.cookie('token','',cookieOptions)
   return res.sendStatus(200)
 }
 
@@ -121,9 +134,10 @@ export const relogin = async(req,res)=>{
     const newToken = await CreateAccessToken({ id: user._id });
 
     const cookieOptions = {
-      httpOnly: true, // Solo accesible desde el servidor
-      secure: process.env.NODE_ENV === 'production', // Solo en HTTPS si está en producción
-      maxAge: 24 * 60 * 60 * 1000 // 1 día de expiración
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000,
     };
 
     // Guarda el nuevo token en una cookie
