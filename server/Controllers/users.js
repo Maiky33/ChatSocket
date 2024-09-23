@@ -36,6 +36,7 @@ export const register = async(req, res)=>{
       secure: true, 
       sameSite: 'None',
       maxAge: 24 * 60 * 60 * 1000,
+      Partitioned: true
     };
 
     //lo guardamos en una cookie
@@ -82,6 +83,7 @@ export const login = async(req, res)=> {
       secure: true, 
       sameSite: 'None',
       maxAge: 24 * 60 * 60 * 1000,
+      Partitioned: true
     };
 
     //lo guardamos en una cookie
@@ -106,6 +108,7 @@ export const logout = async(req, res)=>{
     secure: true, 
     sameSite: 'None',
     maxAge: 24 * 60 * 60 * 1000,
+    Partitioned: true
   };
 
   res.cookie('token','',cookieOptions)
@@ -128,6 +131,7 @@ export const relogin = async(req,res)=>{
       secure: true, 
       sameSite: 'None',
       maxAge: 24 * 60 * 60 * 1000,
+      Partitioned: true
     };
 
     // Guarda el nuevo token en una cookie
