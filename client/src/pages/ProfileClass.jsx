@@ -95,14 +95,7 @@ function ProfileClass() {
         </div>
         <div className="ContainerVideoAndChat"> 
           <div className="AppVideo">
-            <ReactPlayer
-              controls={true}
-              muted
-              playing
-              width={"auto"}
-              loop
-              url="https://www.youtube.com/watch?v=PDllC05gXAA&pp=ygUMY2xhc2UgaW5nbGVz"
-            />
+           
           </div>
           <div className="=ContainerForm">
             <div className="Chat">
