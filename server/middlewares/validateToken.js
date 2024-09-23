@@ -3,7 +3,7 @@ import { TOKEN_SECRET } from '../config.js';
 
 export const authRequired = (req, res, next) => {   
   
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['Authorization'];
 
   console.log("authHeader",authHeader)
     
