@@ -30,18 +30,6 @@ export const register = async(req, res)=>{
       id:userSaved._id
     })
 
-
-    const cookieOptions = {
-      httpOnly: true,
-      secure: true, 
-      sameSite: 'None',
-      maxAge: 24 * 60 * 60 * 1000,
-      Partitioned: true
-    };
-
-    //lo guardamos en una cookie
-    res.cookie('token', token, cookieOptions);
-
     //devolvemos al frontend el user sin la password
     return res.json({  
       id:userSaved._id,
@@ -49,6 +37,7 @@ export const register = async(req, res)=>{
       email:userSaved.email,
       createAt:userSaved.createdAt,
       updatedAt:userSaved.updatedAt,
+      token
     })
   }catch(error){   
     console.log("error",error)
@@ -78,17 +67,6 @@ export const login = async(req, res)=> {
       id:UserFound._id
     })
 
-    const cookieOptions = {
-      httpOnly: true,
-      secure: true, 
-      sameSite: 'None',
-      maxAge: 24 * 60 * 60 * 1000,
-      Partitioned: true
-    };
-
-    //lo guardamos en una cookie
-    res.cookie("token", token, cookieOptions);
-
     //devolvemos al frontend el user sin la password
     return res.json({  
       id:UserFound._id,
@@ -96,6 +74,7 @@ export const login = async(req, res)=> {
       email:UserFound.email,
       createAt:UserFound.createdAt,
       updatedAt:UserFound.updatedAt,
+      token
     })
   }catch(error){   
     return res.status(500).json({message: error.message})
@@ -103,15 +82,6 @@ export const login = async(req, res)=> {
 }
 
 export const logout = async(req, res)=>{
-  const cookieOptions = {
-    httpOnly: true,
-    secure: true, 
-    sameSite: 'None',
-    maxAge: 24 * 60 * 60 * 1000,
-    Partitioned: true
-  };
-
-  res.cookie('token','',cookieOptions)
   return res.sendStatus(200)
 }
 
@@ -126,24 +96,14 @@ export const relogin = async(req,res)=>{
     // Genera un nuevo token de acceso
     const newToken = await CreateAccessToken({ id: user._id });
 
-    const cookieOptions = {
-      httpOnly: true,
-      secure: true, 
-      sameSite: 'None',
-      maxAge: 24 * 60 * 60 * 1000,
-      Partitioned: true
-    };
-
-    // Guarda el nuevo token en una cookie
-    res.cookie("token", newToken, cookieOptions);
-
     // Devuelve el usuario sin la contraseña
     return res.json({
       id: user._id,
       userName: user.userName,
       email: user.email,
       createAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
+      newToken
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
