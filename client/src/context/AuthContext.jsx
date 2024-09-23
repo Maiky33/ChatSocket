@@ -24,7 +24,7 @@ export const AuthProvider = ({children})=>{
         try{    
             const res = await registerRequest(values)
             if (res.data.token) {
-                localStorage.setItem('token', response.data.token); // Guarda el token en localStorage
+                localStorage.setItem('token', res.data.token); // Guarda el token en localStorage
             }
             setUser(res.data)
             setisAuthenticated(true)
@@ -38,7 +38,7 @@ export const AuthProvider = ({children})=>{
         try{    
             const res = await loginRequest(values)
             if (res.data.token) {
-                localStorage.setItem('token', response.data.token); // Guarda el token en localStorage
+                localStorage.setItem('token', res.data.token); // Guarda el token en localStorage
             }
             setUser(res.data)
             setisAuthenticated(true)
@@ -69,7 +69,7 @@ export const AuthProvider = ({children})=>{
             const res = reloginverifyTokenRequest()
             if(res.status === 200){    
                 if (res.data.newToken) {
-                    localStorage.setItem('token', response.data.newToken); // Guarda el token en localStorage
+                    localStorage.setItem('token', res.data.newToken); // Guarda el token en localStorage
                 }
                 setUser(res.data)
                 setisAuthenticated(true)
