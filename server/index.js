@@ -49,6 +49,12 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+    res.on('finish', () => {
+      console.log('initial Response Headers:', res.getHeaders());
+    });
+    next();
+});
 /// enrrutador de mensajes
 app.use('/api', router)
 /// enrrutador de usuarios
