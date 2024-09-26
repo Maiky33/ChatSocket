@@ -4,12 +4,12 @@ import { TOKEN_SECRET } from '../config.js';
 export const authRequired = (req, res, next) => {   
   
   const authHeader = req.headers['authorization'];
-
-  console.log("authHeader",authHeader)
     
-  if (!authHeader) return res.status(401).json({ message: "No token, authorization denied" });
+  if (!authHeader) return res.status(401).json({ message: "No authHeader" });
 
     const token = authHeader.split(' ')[1];
+
+    console.log("token",token)
     
     if (!token) return res.status(401).json({ message: "No token, authorization denied" });
 
