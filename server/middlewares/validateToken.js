@@ -11,7 +11,7 @@ export const authRequired = async(req, res, next) => {
 
   console.log("token",token)
   
-  if (!token) return res.status(401).json({ message: "No token, authorization denied" });
+  // if (!token) return res.status(401).json({ message: "No token, authorization denied" });
 
   jwt.verify(token, TOKEN_SECRET, (err, user) => {  
       
