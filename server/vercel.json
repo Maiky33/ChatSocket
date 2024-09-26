@@ -16,11 +16,7 @@
         "PUT",
         "DELETE",
         "OPTIONS"
-      ],
-      "headers": {
-        "Access-Control-Allow-Origin": "https://chat-socket-client.vercel.app",
-        "Access-Control-Allow-Credentials": "true"
-      }
+      ]
     }
   ]
 }
