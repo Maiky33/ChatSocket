@@ -3,7 +3,7 @@ import { TOKEN_SECRET } from '../config.js';
 
 export const authRequired = async(req, res, next) => {   
 
-  const authHeader = await req.headers['authorization'];
+  const authHeader = req.get('Authorization') || req.headers.authorization || req.headers.Authorization;
     
   if (!authHeader) return res.status(401).json({ message: "No authHeader" });
 
