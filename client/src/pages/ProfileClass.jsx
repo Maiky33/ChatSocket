@@ -28,21 +28,20 @@ function ProfileClass() {
     }
   }, [user]);
 
-  useEffect(() => {
 
+  useEffect(() => {
     // traemos los mensages guardados en la db 
     const loadMessages = async () => {
-      if (!Fristconnect) {
-        const messages = await getMessages();
-        // seteamos el nickname, los mensaje guardados etc
-        setPreviewMessages(messages);
-        setFristconnect(true);
-      }
+      // seteamos el nickname, los mensaje guardados etc
+      const messages = await getMessages();
+      setPreviewMessages(messages);
     };
-    
-    // ejecutamos la funcion ya que es async y no podemos ponerla directamente en el useEffect
+
     loadMessages();
-    
+  }, [getMessages]);
+
+  useEffect(() => {
+
     // es la fuincion que se ejecuta si el on recive el evento message de server
     const recivedMessage = (InputMessage) => {
       // seteamos los mensajes concatenando el mensaje resivido con los viejos
