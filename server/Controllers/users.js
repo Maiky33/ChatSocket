@@ -1,6 +1,7 @@
 import User from "../models/user.js"
 import bcrypt from 'bcryptjs'
-import {CreateAccessToken} from '../libs/jwt.js' 
+import jwt from "jsonwebtoken";
+
 
 export const register = async(req, res)=>{   
   //req.body recibimos los datos que envia el user en frontend desde la peticion
@@ -21,23 +22,24 @@ export const register = async(req, res)=>{
       password:passwordhash
     })
 
-    //guardamos en base de datos
-    const userSaved = await newUser.save()
+    const userSaved = await newUser.save();
 
-    //creamos el token 
-    const token = await CreateAccessToken({ 
-      //le decimos el parametro que queremos guardar dentro del token
-      id:userSaved._id
-    })
+    const {access_token} = await generateTokens(newUser)
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000,
+    };
+
+    res.cookie('token', access_token, cookieOptions);
 
     //devolvemos al frontend el user sin la password
     return res.json({  
       id:userSaved._id,
       userName:userSaved.userName,
-      email:userSaved.email,
-      createAt:userSaved.createdAt,
-      updatedAt:userSaved.updatedAt,
-      token
+      email:userSaved.email
     })
   }catch(error){   
     console.log("error",error)
@@ -61,51 +63,84 @@ export const login = async(req, res)=> {
     //si no coinciden las contraseñas enviamos el status
     if(!isMatch) return res.status(400).json({message:"Incorrect Password"})
 
-    //creamos el token 
-    const token = await CreateAccessToken({ 
-      //le decimos el parametro que queremos guardar dentro del token
-      id:UserFound._id
-    })
+    const {access_token} = await generateTokens(UserFound)
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000,
+    };
+
+    res.cookie('token', access_token, cookieOptions);
 
     //devolvemos al frontend el user sin la password
     return res.json({  
       id:UserFound._id,
       userName:UserFound.userName,
-      email:UserFound.email,
-      createAt:UserFound.createdAt,
-      updatedAt:UserFound.updatedAt,
-      token
+      email:UserFound.email
     })
+
   }catch(error){   
     return res.status(500).json({message: error.message})
   }
 }
 
-export const logout = async(req, res)=>{
-  return res.sendStatus(200)
-}
+export const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "None"
+  });
+
+  return res.sendStatus(200);
+};
 
 export const relogin = async(req,res)=>{
 
   try {
     // El middleware authRequired verifica el token y añade el usuario al req.user
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.sub);
 
     if (!user) return res.status(400).json({ message: "User not found" });
-
-    // Genera un nuevo token de acceso
-    const newToken = await CreateAccessToken({ id: user._id });
 
     // Devuelve el usuario sin la contraseña
     return res.json({
       id: user._id,
       userName: user.userName,
-      email: user.email,
-      createAt: user.createdAt,
-      updatedAt: user.updatedAt,
-      newToken
+      email: user.email
     });
+
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 }
+
+export const generateTokens = async (user) => {
+  const JwtPayload = {
+    sub: user._id,
+    email: user.email,
+    name: user.userName,
+  };
+
+  const access_token = jwt.sign(
+    JwtPayload,
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+
+  const refresh_token = jwt.sign(
+    JwtPayload,
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
+
+  return {
+    access_token,
+    refresh_token,
+  };
+};

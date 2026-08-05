@@ -7,14 +7,17 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import router from './routes/message.js'
-
 import routerUsers from './routes/users.js'
+import dotenv from "dotenv";
+dotenv.config();
 
 
 
 
 //Configuracion mongoose
-let url = `mongodb+srv://maicol:root1234@cluster0.ljujc.mongodb.net/ChatSocket?retryWrites=true&w=majority`
+// let url = "mongodb://127.0.0.1:27017/chat-Socket"
+let url = process.env.URL_DATABASE
+let clientUrl = process.env.URL_CLIENT || "http://localhost:3000"
 
 
 //para poder evitar posibles fallos en la coneccion a mongodb
@@ -32,16 +35,16 @@ const server = http.createServer(app)
 //configuaramos las cors para poder entrar desde cualquier servidor
 const io = new SocketServer(server, {
     cors:{
-        origin: 'https://chat-socket-client.vercel.app',
-        credentials:true,
+        origin: clientUrl,
+        credentials:true
     }
 })
 
 app.use(cors({
-    origin: 'https://chat-socket-client.vercel.app',
+    origin: clientUrl,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    credentials: true
 }));
 app.use(cookieParser())
 //middlewares

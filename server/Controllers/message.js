@@ -36,23 +36,24 @@ const Controller = {
       .select('message from')
       .sort('-_id')
       .exec((error, messages) => {
-          if (error) {
-              return res.status(500).send({
-                  status: "error",
-                  message: "Error al extraer los datos",
-              });
-          }
-          // Si no existen mensajes:
-          if (!messages || messages.length === 0) {
-              return res.status(404).send({
-                  status: "error",
-                  message: "No hay mensajes para mostrar",
-              });
-          }
-          return res.status(200).send({
-              status: "success",
-              messages
+        if (error) {
+          return res.status(500).send({
+            status: "error",
+            message: "Error al extraer los datos",
           });
+        }
+        // Si no existen mensajes:
+        if (!messages || messages.length === 0) {
+          return res.status(404).send({
+            status: "error",
+            message: "No hay mensajes para mostrar",
+          });
+        }
+        
+        return res.status(200).send({
+          status: "success",
+          messages
+        });
       });
   }
 };

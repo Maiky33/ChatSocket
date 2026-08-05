@@ -67,20 +67,13 @@ function RegisterUser() {
         </div>
 
         <form onSubmit={OnsubmitRegister} className="FormContain">
-          { 
-            Errors.map((error, i)=>(  
-              <div className="ErrorPost" key={i}> 
-                {error}
-              </div>
-            ))
-          }
           {
             !formState?
             <div className="containinputText"> 
             <p className="userNameText">UserName</p>
             <input placeholder="Enter your Name" className="usernameInput" type="text" {...register('userName', {required:true})}/>
             {
-              errors.userName && <p className="errorData">UserName is Required</p>
+              errors?.userName && <p className="errorData">UserName is Required</p>
             }
             </div>:null
           }
@@ -90,7 +83,7 @@ function RegisterUser() {
             <p className="userNameText">E-mail</p>
             <input placeholder="Enter your Email" className="emailInput" type="email" {...register('email', {required:true})}/>
             {
-              errors.email && <p className="errorData">Email is Required</p>
+              errors?.email && <p className="errorData">Email is Required</p>
             }
           </div>
 
@@ -98,7 +91,7 @@ function RegisterUser() {
             <p className="userNameText">Password</p>
             <input placeholder=". . . . . ." className="passwordInput" type="password" {...register('password', {required:true})}/>
             {
-              errors.password && <p className="errorData">Password is Required</p>
+              errors?.password && <p className="errorData">Password is Required</p>
             }
           </div>
 

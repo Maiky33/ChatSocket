@@ -64,13 +64,10 @@ export const AuthProvider = ({children})=>{
         }
     }
 
-    const reloginverifyToken = useCallback(() => {   
+    const reloginverifyToken = useCallback(async() => {   
         try{    
-            const res = reloginverifyTokenRequest()
-            if(res.status === 200){    
-                if (res.data.newToken) {
-                    localStorage.setItem('token', res.data.newToken); // Guarda el token en localStorage
-                }
+            const res = await reloginverifyTokenRequest()
+            if(res.status === 200){
                 setUser(res.data)
                 setisAuthenticated(true)
             }

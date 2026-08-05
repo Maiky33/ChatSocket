@@ -1,26 +1,26 @@
 
-// import io from "socket.io-client";
-// import axios from "axios";
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
-
 import RegisterUser from "./pages/ReagisterPage";
 import ProfileClass from "./pages/ProfileClass";
 import { AuthProvider } from "./context/AuthContext";
+import { MessageProvider } from "./context/MessageContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
  
 function App() {
 
   return (
     <AuthProvider>  
-      <BrowserRouter> 
-        <Routes>  
-          <Route path="/" element={<RegisterUser/>}/>
+      <MessageProvider> 
+        <BrowserRouter> 
+          <Routes>  
+            <Route path="/" element={<RegisterUser/>}/>
 
-          <Route element={<ProtectedRoute/>}> 
-            <Route path="/profileclass" element={<ProfileClass/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+            <Route element={<ProtectedRoute/>}> 
+              <Route path="/profileclass" element={<ProfileClass/>}/>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </MessageProvider>
     </AuthProvider>
   );
 }

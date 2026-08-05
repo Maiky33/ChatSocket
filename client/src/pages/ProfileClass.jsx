@@ -1,78 +1,83 @@
 import io from "socket.io-client";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
 import { useAuth } from "../context/AuthContext";
+import { useMessage } from "../context/MessageContext";
 import "./Styles/App.css";
 
 
 //Coneccion para escuchar y eviar los elementos
+const API = process.env.REACT_APP_API_URL
 
-const Socket = io("https://chat-socket-server-nu.vercel.app");
+const Socket = io(API,{withCredentials: true});
 
 function ProfileClass() {
-  const [Nickname, setNickname] = useState("");
-  const [Message, setMessage] = useState("");
-  const [Messages, setMessages] = useState([]);
-
   const [PreviewMessages, setPreviewMessages] = useState([]);
+  const [Messages, setMessages] = useState([]);
+  
+  const [Nickname, setNickname] = useState("");
+  const [InputMessage, setInputMessage] = useState("");
+  
   const [Fristconnect, setFristconnect] = useState(false);
-
   const {user,LogOut} = useAuth() 
+  const {saveMessage, getMessages} = useMessage()
 
   useEffect(() => {
-    //cada vez que alguien envie un mensaje para que todos los Clientes puedan verlo aactualizado con el nuevo mensaje
-    // (Aqui actualizamos los mensaje para todos los clientes)
-    // creamos una funcion que recibe Message(el mensaje como parametro)
-    const recivedMessage = (Message) => {
-      // seteamos los mensajes concatenando el mensaje resivido con los viejos
-      setMessages([Message, ...Messages]);
+
+    // traemos los mensages guardados en la db 
+    const loadMessages = async () => {
+      if (!Fristconnect) {
+        const messages = await getMessages();
+        // seteamos el nickname, los mensaje guardados etc
+        setPreviewMessages(messages);
+        setNickname(user?.userName);
+        setFristconnect(true);
+      }
     };
     
-    // Escuchamos el evento "message", y le pasamos el mensaje (recivedMessage)
+    // ejecutamos la funcion ya que es async y no podemos ponerla directamente en el useEffect
+    loadMessages();
+    
+    // es la fuincion que se ejecuta si el on recive el evento message de server
+    const recivedMessage = (InputMessage) => {
+      // seteamos los mensajes concatenando el mensaje resivido con los viejos
+      setMessages((prevMessages) => [
+        InputMessage,
+        ...prevMessages
+      ]);
+    };
+    
+    // escuchamos el evento message y si se dispara, se ejecuta la funcion recivedMessage
     Socket.on("message", recivedMessage);
-
+    
     //desuscribimos el evento(para dejar de escuchar el evento)
     return () => {
       Socket.off("message", recivedMessage);
     };
-  }, [Messages]);
-
-  if (!Fristconnect) {
-    //traemos la los mensajes la primera vez
-    axios.get("https://chat-socket-server-nu.vercel.app/api/messages").then((res) => {
-      setPreviewMessages(res.data.messages);
-      if(res?.data?.messages){ 
-        setMessage("");
-      }else{  
-        setMessage(res?.data?.messages);
-      }
-    });
-    setNickname(user?.userName)
-    setFristconnect(true);
-  }
+  
+  }, [Fristconnect,getMessages, user]);
+  
 
   const MessageSubmit = (e) => {
     e.preventDefault();
-    if (Nickname !== "") {
-      //emitimos (enviamos) en el evento "message", con los parametros que recibe en este caso Message y nickName
-      Socket.emit("message", Message, Nickname);
 
-      // al momento de enviar el mensaje lo enviamos con el from yo, para verlo en frontend, en el backend se guarda con el nickname agregado
+    if (Nickname !== "") {
+      // emitimos o disparamos el evento mensaje para que lo reciva el on del index y nos devuelva un solo objeto
+      Socket.emit("message", InputMessage, Nickname);
+
+      // creamos el nuevo mensaje para mostrarlo en el frontend como "yo"
       const newMessage = {
-        body: Message,
+        body: InputMessage,
         from: "yo",
       };
 
-    // (Aqui actualizamos el mensaje para el user)
-      // seteamos los mensajes y concatenamos con el mensaje nuevo
+      // seteamos los mensajes concatenando el mensaje nuevo con los anteriores a este no con los PreviewMessages
       setMessages([newMessage, ...Messages]);
-      setMessage("");
+      // limpiamos el input
+      setInputMessage("");
 
-      
-      //Hacemos la peticion http por Post para guardar mensaje en la base de datos con el nickname correcto
-      axios.post("https://chat-socket-server-nu.vercel.app/api/save", {
-        message: Message,
+      // gaurdamos en db
+      saveMessage({
+        message: InputMessage,
         from: Nickname,
       });
 
@@ -94,16 +99,6 @@ function ProfileClass() {
           </button>
         </div>
         <div className="ContainerVideoAndChat"> 
-          <div className="AppVideo">
-            <ReactPlayer
-              controls={true}
-              muted
-              playing
-              width={"auto"}
-              loop
-              url="https://www.youtube.com/watch?v=PDllC05gXAA&pp=ygUMY2xhc2UgaW5nbGVz"
-            />
-          </div>
           <div className="=ContainerForm">
             <div className="Chat">
               <div className="ChatBody">
@@ -146,12 +141,12 @@ function ProfileClass() {
                 <form onSubmit={MessageSubmit}>
                   <div className="ContainerButtonInput">
                     <input
-                      onChange={(e) => setMessage(e.target.value)}
+                      onChange={(e) => setInputMessage(e.target.value)}
                       type="text"
                       className="MessageInput"
                       placeholder="message..."
                       id="nickname"
-                      value={Message}
+                      value={InputMessage}
                     />
                     <button className="ButtonName">Enviar</button>
                   </div>

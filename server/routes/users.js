@@ -1,6 +1,6 @@
 import express from 'express'
 import {login,register,logout,relogin} from '../Controllers/users.js'
-import {authRequired} from '../middlewares/validateToken.js'
+import {authRequired} from '../middlewares/authRequired.js'
 import {validateSchema} from '../middlewares/validator.middleware.js'
 import { registerSchema,loginSchema } from "../schemas/auth.schema.js";
 const router = express.Router()
