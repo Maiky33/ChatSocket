@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 function RegisterUser() {
 
   const {register,handleSubmit,formState:{errors}} = useForm()
-  const {SingUp,SingIn,isAuthenticated,Errors,reloginverifyToken} = useAuth()
+  const {SingUp,SingIn,isAuthenticated,reloginverifyToken} = useAuth()
 
   const [formState, setformState] = useState(false)
 
