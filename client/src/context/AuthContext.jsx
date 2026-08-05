@@ -23,9 +23,6 @@ export const AuthProvider = ({children})=>{
     const SingUp = async(values)=>{  
         try{    
             const res = await registerRequest(values)
-            if (res.data.token) {
-                localStorage.setItem('token', res.data.token); // Guarda el token en localStorage
-            }
             setUser(res.data)
             setisAuthenticated(true)
         }catch(error){   
@@ -37,9 +34,6 @@ export const AuthProvider = ({children})=>{
     const SingIn = async(values)=>{
         try{    
             const res = await loginRequest(values)
-            if (res.data.token) {
-                localStorage.setItem('token', res.data.token); // Guarda el token en localStorage
-            }
             setUser(res.data)
             setisAuthenticated(true)
         }catch(error){   
@@ -53,7 +47,6 @@ export const AuthProvider = ({children})=>{
     const LogOut = async()=>{
         try{    
             const res = await logOutRequest()
-            localStorage.removeItem('token'); // Elimina el token del almacenamiento local al cerrar sesión
             setUser(res.data)
             setisAuthenticated(false)
         }catch(error){   

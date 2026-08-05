@@ -21,6 +21,13 @@ function ProfileClass() {
   const {user,LogOut} = useAuth() 
   const {saveMessage, getMessages} = useMessage()
 
+
+  useEffect(() => {
+    if (user) {
+      setNickname(user.userName);
+    }
+  }, [user]);
+
   useEffect(() => {
 
     // traemos los mensages guardados en la db 
@@ -29,7 +36,6 @@ function ProfileClass() {
         const messages = await getMessages();
         // seteamos el nickname, los mensaje guardados etc
         setPreviewMessages(messages);
-        setNickname(user?.userName);
         setFristconnect(true);
       }
     };
@@ -53,8 +59,8 @@ function ProfileClass() {
     return () => {
       Socket.off("message", recivedMessage);
     };
-  
-  }, [Fristconnect,getMessages, user]);
+    
+  }, []);
   
 
   const MessageSubmit = (e) => {
