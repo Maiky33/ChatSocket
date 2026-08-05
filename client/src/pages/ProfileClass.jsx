@@ -17,7 +17,6 @@ function ProfileClass() {
   const [Nickname, setNickname] = useState("");
   const [InputMessage, setInputMessage] = useState("");
   
-  const [Fristconnect, setFristconnect] = useState(false);
   const {user,LogOut} = useAuth() 
   const {saveMessage, getMessages} = useMessage()
 
