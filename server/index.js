@@ -6,8 +6,9 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
-import router from './routes/message.js'
-import routerUsers from './routes/users.js'
+import routerMessage from './routes/Message.js'
+import routerAuth from './routes/Auth.js'
+import routerUsers from './routes/Users.js'
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -58,10 +59,16 @@ app.use((req, res, next) => {
     });
     next();
 });
-/// enrrutador de mensajes
-app.use('/api', router)
+
+/// enrrutador de autentificacion
+app.use('/api', routerAuth)
 /// enrrutador de usuarios
 app.use('/api', routerUsers)
+/// enrrutador de mensajes
+app.use('/api', routerMessage)
+
+
+const onlineUsers = new Map();
 
 // vemos la coneccion de los clientes io.on
 io.on('connection', (socket) => {    
@@ -69,6 +76,15 @@ io.on('connection', (socket) => {
     console.log(socket.id)
     console.log('cliente conectado')
 
+    // escucha cuando el cliente devuelve el user que se conecto
+    socket.on("userConnected", (user) => {
+        onlineUsers.set(user.id, socket.id);
+
+        io.emit("onlineUsers", [...onlineUsers.keys()]);
+    });
+    
+    console.log("Users", onlineUsers)
+    
     //escuchamos el evento "message"(traemos los valosres message , nickname)
     socket.on('message', (message, nickname) => {  
         // emitimos los parametros que nos trae al resto de clientes conectados
@@ -77,6 +93,17 @@ io.on('connection', (socket) => {
             from: nickname
         })
     })
+
+    // escucha cuando el usuario se desconecta y lo eliminamos de onlineUsers
+    socket.on("disconnect", () => {
+        for (const [userId, socketId] of onlineUsers) {
+            if (socketId === socket.id) {
+                onlineUsers.delete(userId);
+                break;
+            }
+        }
+        io.emit("onlineUsers", [...onlineUsers.keys()]);
+    });
 })
 
 

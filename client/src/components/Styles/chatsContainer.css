@@ -1,0 +1,210 @@
+.bannerLeft{ 
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    width: 305px;
+    height: 100%;
+    gap: 20px;
+
+    background: hsla(217, 34%, 13%, 1);
+    border-radius: 12px;
+    border: 1px #ffffff10 solid;
+    box-shadow:   0 15px 40px rgba(0,0,0,.35);
+}
+
+.Line{  
+    width: 80%;
+    border: 1px #ffffff10 solid;    
+}
+
+.container_image_User_coonversation,
+.container_image_User{ 
+    width: 100%; 
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+
+    padding: 30px 30px 0px 30px;
+
+    img{    
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+    }
+}
+
+.container_image_User_coonversation{   
+    width: auto; 
+    padding: 0px;
+}
+
+.container_Menu{  
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Item_Menu_Banner{  
+    width: 85%;
+    height: 50px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px 20px;
+    gap: 20px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+
+      
+    color: aliceblue;
+    font-size: 30px;
+
+    p{  
+        color: aliceblue;
+        font-size: 20px;
+    }
+}
+
+.Item_Menu_Banner:hover{  
+    background:linear-gradient(
+        90deg,
+        rgba(80,255,225,.16),
+        rgba(80,255,225,0)
+    );
+    color: #62d5c4;
+    p{  
+        color: #62d5c4;
+    }
+
+    cursor: pointer;
+}
+
+.container_Conversation{    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.conversation_Plus{ 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 24px;
+
+    h3{ 
+        font-size: 16px;
+        color: aliceblue;
+    }
+
+    svg{    
+        color: aliceblue;
+        font-size: 20px;
+    }
+
+    svg:hover{  
+        color: #62d5c4;
+    }
+}
+
+.container_Chats{  
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 12px; 
+}
+
+.Chats{  
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    padding: 17px;
+
+    
+    backdrop-filter: blur(18px);
+    
+    border-radius: 12px; 
+    
+}
+
+.Chats:hover{   
+    background: linear-gradient(180deg, rgb(33 68 75 / 95%) 0%, rgb(23 30 44 / 95%) 100%);
+    border: 1px solid #80808091;
+    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    cursor: pointer;
+}
+
+
+.ChatImage{ 
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.Name_Message{  
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Name{  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: aliceblue;
+}
+
+.HourMessage{   
+    font-size: 12px;
+}
+
+.Message{   
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: aliceblue;
+}
+
+.NumberMessage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+    border-radius: 50%;
+    background-color: #62d5c4;
+     
+    color: #ffffff;
+}
+
+
+
+.container_User{    
+    display: flex;
+    flex-direction: column;
+}
+
+.userName{  
+    color: aliceblue;
+}
+
+.online{    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+
+    svg{    
+        color: #4cce4c;
+    }
+}

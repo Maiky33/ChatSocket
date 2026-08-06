@@ -1,67 +1,102 @@
 *{  
+    margin: 0px;
+    padding: 0px;
+    font-family: cursive; 
+}
+
+html,
+body {
     margin: 0;
     padding: 0;
-    font-family: cursive;
+    background: #0e1623;
+}
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 .ContainerVideoAndChat{ 
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 100px;
+    gap: 10px;
+    height: 730px;
 }
 .App{
-    background-color: #394b63;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    gap: 100px;
-    align-items: center;
-    height: 100vh !important;
+    width: 100%;
+    max-width: 1440px;
+    height: 844px;
+    margin: 0 auto;
+    background-color: #0e1623;
+    
 }
 
 .ContainerTitleLogOut{  
     width: 100%;
     height: 80px;
-    max-width: 2017px;
+    padding: 0px 40px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
+
+
 .title{ 
-    font-size: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap:10px;
+    font-size: 30px;
     color: aliceblue;
     font-family: cursive;
+    svg{    
+        font-size: 36px;
+        color: #62d5c4;
+    }
 }
+
 .logOut{    
-    width: 150px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    width: auto;
+    padding: 0px 20px;
     height: 40px;
-    border-radius: 26px;
+    border-radius: 8px;
     border: none;
     background-color: #62d5c4;
     color: aliceblue;
     font-weight: bold;
     font-family: cursive;
     cursor:pointer;
+    font-size: 17px;
+
+
+    svg{    
+        font-size: 25px;
+        color: aliceblue;   
+    }
 }
-.AppVideo{ 
-    width: 600px;
-    background-color: aquamarine;
-    border-radius: 15px;
-}
+
 .Chat{  
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    justify-content: space-between;
 }
 .ChatBody{  
-    width: 300px;
+    width: 100%;
+    height: 520px;
     display: flex;
-    flex-direction: column-reverse;
-    height: 400px;
+    flex-direction: column-reverse; 
     overflow-y: scroll;
-    background-color: #62d5c4;
-    border-radius: 15px;
+    background: hsla(217, 34%, 13%, 1);
     padding: 30px;
 }
 .InputsForm{
@@ -77,27 +112,71 @@
     outline: none;
 }
 .MessageInput{
+    width: 90%;
     border-radius: 15px;
     border: none;
-    padding: 10px;
+    padding: 20px 70px;
+    outline: none;
+
+    background-color: #1e2636;
+    color: aliceblue;
     outline: none;
 }
 
+.MessageInput:-webkit-autofill,
+.MessageInput:-webkit-autofill:hover,
+.MessageInput:-webkit-autofill:focus,
+.MessageInput:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #1e2636 inset;
+    -webkit-text-fill-color: white;
+    transition: background-color 5000s ease-in-out 0s;
+    border-radius: 12px;
+    outline: none;
+}
+
+.emoji-picker {
+    position: absolute;
+    bottom: 26px;
+    left: 80px;
+}
+
 .ContainerButtonInput{  
+    position: relative;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 20px;
     gap: 20px;
 }
 
+.EmogiAbsolute{ 
+    font-size: 40px;
+    position: absolute;
+    left: 35px;
+    bottom: 21px;
+    cursor: pointer;
+    border-style: none;
+
+    color: grey;
+    background-color: transparent;
+}
+
 .ButtonName{    
-    width: 150px;
-    height: 40px;
-    border-radius: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
     border: none;
     background-color: #62d5c4;
     color: aliceblue;
     font-weight: bold;
     font-family: cursive;
     cursor:pointer;
+
+    font-size: 26px;
 }
 
 
@@ -107,105 +186,40 @@
     gap: 50px;
 }
 
+.SmallMessages{ 
+    color: aliceblue;
+}
+
 .NewMessage{    
     display: flex;
     flex-direction: column-reverse;
     gap:20px
 }
 
+
 .MessageYOU{  
-    width: 100px;
+    width: 45%;  
     display: flex;
     justify-content: end;
     padding: 20px;
+    align-self: flex-end;
+
     align-items: center;
-    width: auto;  
-    background-color: #394b63;
+    background-color: #2b867d;
     color: beige;
     border-radius: 15px;
+    border-bottom-right-radius: 0px;
 }
 
 .Messageother{  
+    width: 45%; 
     display: flex;
     justify-content: start;
+    align-self: flex-start;
     padding: 20px;
     align-items: center;
-    width: auto;
-    background-color: #d191b7;
+    background-color: #2a3445;
     border-radius: 15px;
+    border-bottom-left-radius: 0px;
     color: aliceblue;
-}
-
-@media screen and (max-width:1112px) {
-    .ContainerVideoAndChat{ 
-        gap: 30px;
-    }
-}
-
-@media screen and (max-width:1052px) {
-    .ContainerVideoAndChat{ 
-        gap: 10px;
-    }
-}
-@media screen and (max-width:1018px) {
-    .App{   
-        height: 100%;
-    }
-    .ContainerVideoAndChat{ 
-        flex-direction: column;
-        gap: 30px;
-        margin-bottom: 50px;
-    }
-    .ChatBody{  
-        width: 550px;
-    }
-    .MessageInput{  
-        width: 80%;
-    }
-}
-
-@media screen and (max-width:660px) {
-    .AppVideo{  
-        width: 400px;
-    }
-    .ChatBody{  
-        width: 350px;
-    }
-}
-
-@media screen and (max-width: 420px) {
-    .Chat{  
-        align-items: center;
-    }
-    .AppVideo{  
-        width: 300px;
-    }
-    .ChatBody{  
-        width: 250px;
-    }
-    .ContainerButtonInput{  
-        justify-content: center;
-        align-items: center;
-    }
-    .MessageInput{  
-        width: 40%;
-    }
-}
-
-@media screen and (max-height:713px) {
-    .App{   
-        gap: 50px;
-    }
-}
-
-@media screen and (max-height:680px) {
-    .App{   
-        gap: 10px;
-    }
-}
-
-@media screen and (max-height:631px) {
-    .App{   
-        gap: 0px;
-    }
 }

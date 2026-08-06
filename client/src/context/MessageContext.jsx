@@ -1,4 +1,4 @@
-import { createContext, useState, useContext} from "react";
+import { createContext, useState, useContext, useCallback} from "react";
 import {getMessagesRequest, saveMessageRequest} from "../api/messages";
 
 
@@ -20,7 +20,7 @@ export const MessageProvider = ({children})=>{
 
     const [Errors, setErrors] = useState([])
 
-    const getMessages = async()=>{  
+    const getMessages =  useCallback(async()=>{  
         try{    
             const res = await getMessagesRequest()
             if(res.status === 200){
@@ -33,7 +33,7 @@ export const MessageProvider = ({children})=>{
             setErrors([error?.response?.data?.message])
         }
 
-    }
+    }, [])
 
     const saveMessage = async(message)=>{   
         try{    

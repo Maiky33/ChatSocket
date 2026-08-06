@@ -1,4 +1,5 @@
-import { createContext, useState, useContext, useCallback} from "react";
+import io from "socket.io-client";
+import { createContext, useState, useContext, useCallback, useEffect} from "react";
 import {registerRequest,loginRequest,logOutRequest,reloginverifyTokenRequest} from "../api/auth.js";
 export const AuthContext = createContext()
 
@@ -20,10 +21,24 @@ export const AuthProvider = ({children})=>{
     const [isAuthenticated, setisAuthenticated] = useState(false)
     const [Errors, setErrors] = useState([])
 
+    const API = process.env.REACT_APP_API_URL
+    const Socket = io(API,{withCredentials: true});
+
+    useEffect(() => {
+
+        if (isAuthenticated && user) {
+            Socket.emit("userConnected", {
+                id: user.id,
+                userName: user.userName
+            });
+        }
+
+    }, [isAuthenticated, user, Socket]);
+
     const SingUp = async(values)=>{  
         try{    
             const res = await registerRequest(values)
-            setUser(res.data)
+            setUser(res?.data)
             setisAuthenticated(true)
         }catch(error){   
             
@@ -46,8 +61,9 @@ export const AuthProvider = ({children})=>{
 
     const LogOut = async()=>{
         try{    
-            const res = await logOutRequest()
-            setUser(res.data)
+            await logOutRequest()
+            Socket.disconnect();
+            setUser(null)
             setisAuthenticated(false)
         }catch(error){   
             if(Array.isArray(error?.response?.data)){ 
@@ -82,7 +98,8 @@ export const AuthProvider = ({children})=>{
                 LogOut,
                 isAuthenticated,
                 reloginverifyToken,
-                Errors
+                Errors,
+                Socket
             }}>  
             {children}
         </AuthContext.Provider>

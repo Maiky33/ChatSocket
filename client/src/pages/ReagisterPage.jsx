@@ -23,7 +23,6 @@ function RegisterUser() {
   
   const OnsubmitRegister = handleSubmit(async(values) =>{  
     if(formState){
-      console.log("values",values)
       SingIn(values)
     }else{
       SingUp(values)
@@ -56,7 +55,7 @@ function RegisterUser() {
   return (
     <div className="ContainerFromRegisterImage">   
       <div className="ContainerImage">
-        <p className="ImageText">Aprende, Imagina, Crea</p> 
+        <p className="ImageText">Chat Socket</p> 
         <img className="ImageRegister" src={LogoRegister} alt="" />
       </div>
 
