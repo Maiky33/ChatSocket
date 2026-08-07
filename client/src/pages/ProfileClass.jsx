@@ -11,6 +11,7 @@ import { CiFaceSmile } from "react-icons/ci";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import ChatsContainer from "../components/ChatsContainer.jsx"
 import UserOnlineContainer from "../components/UsersOnlineContainer.jsx"
+import ModalConvesation from "../components/ModalConvesation.jsx"
 
 import "./Styles/App.css";
 
@@ -27,6 +28,15 @@ function ProfileClass() {
   const {saveMessage, getMessages} = useMessage()
 
   const [showPicker, setShowPicker] = useState(false);
+  const [isOpenModal, setisOpenModal]= useState(false)
+
+  // estados de UserOnlineContainer
+  const [usersOnline, setUsersOnline] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+
+  // conversacion Actual
+  const [conversations, setConversations] = useState([]);
+
 
   const onEmojiClick = (emojiData) => {
     setInputMessage(prev => prev + emojiData.emoji);
@@ -107,6 +117,7 @@ function ProfileClass() {
   return (
     
     <div className="App">
+      <ModalConvesation conversations={conversations} setConversations={setConversations} usersOnline={usersOnline} isOpenModal={isOpenModal} setisOpenModal={setisOpenModal}/>
         <div className="ContainerTitleLogOut"> 
           <div className="title"> 
             <IoChatbubblesSharp />
@@ -119,7 +130,7 @@ function ProfileClass() {
           </button>
         </div>
         <div className="ContainerVideoAndChat"> 
-          <ChatsContainer />
+          <ChatsContainer conversations={conversations} setConversations={setConversations} setisOpenModal={setisOpenModal} />
 
           <div className="ContainerForm">
             <div className="containerNavFromChat"> 
@@ -204,7 +215,10 @@ function ProfileClass() {
             </div>
           </div>
 
-          <UserOnlineContainer />
+          <UserOnlineContainer 
+            usersOnline={usersOnline} setUsersOnline={setUsersOnline} 
+            allUsers={allUsers} setAllUsers={setAllUsers}
+          />
 
         </div>
     </div>

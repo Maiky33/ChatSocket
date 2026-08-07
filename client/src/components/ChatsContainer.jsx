@@ -9,8 +9,9 @@ import { useAuth } from '../context/AuthContext';
 
 
 
-const ChatsContainer = () =>{    
+const ChatsContainer = (props) =>{    
 
+    const {setisOpenModal, conversations} = props
     const {user} = useAuth()
    
     
@@ -37,31 +38,22 @@ const ChatsContainer = () =>{
             <div className='container_Conversation'>   
                 <div className='conversation_Plus'>   
                     <h3>CONVERSACIONES</h3>
-                    <RxPlusCircled/>
+
+                    <RxPlusCircled onClick={()=>setisOpenModal(true)}/>
                 </div>
 
-                <div className='container_Chats'>   
-                    <div className="Chats">   
-                        <img className='ChatImage' src="https://media.istockphoto.com/id/1223671392/es/vector/imagen-de-perfil-predeterminada-avatar-marcador-de-posici%C3%B3n-de-la-foto-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=z7iux2vOeMQ6SJyERGoJZsye3msSp3Nflg_GXMCou3c=" alt="" />
-                        <div className='Name_Message'>
-                            <h3 className='Name'>Daniela <span className='HourMessage'>10:45 pm</span></h3>
-                            <p className='Message'>Hola como estas? <span className='NumberMessage'>1</span></p>
-                        </div>
-                    </div>
-                    <div className="Chats">   
-                        <img className='ChatImage' src="https://media.istockphoto.com/id/1223671392/es/vector/imagen-de-perfil-predeterminada-avatar-marcador-de-posici%C3%B3n-de-la-foto-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=z7iux2vOeMQ6SJyERGoJZsye3msSp3Nflg_GXMCou3c=" alt="" />
-                        <div className='Name_Message'>
-                            <h3 className='Name'>Nico <span className='HourMessage'>10:45 pm</span></h3>
-                            <p className='Message'>Hola como estas? <span className='NumberMessage'>2</span></p>
-                        </div>
-                    </div>
-                    <div className="Chats">   
-                        <img className='ChatImage' src="https://media.istockphoto.com/id/1223671392/es/vector/imagen-de-perfil-predeterminada-avatar-marcador-de-posici%C3%B3n-de-la-foto-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=z7iux2vOeMQ6SJyERGoJZsye3msSp3Nflg_GXMCou3c=" alt="" />
-                        <div className='Name_Message'>
-                            <h3 className='Name'>Daniel <span className='HourMessage'>10:45 pm</span></h3>
-                            <p className='Message'>Hola como estas? <span className='NumberMessage'>3</span></p>
-                        </div>
-                    </div>
+                <div className='container_Chats'>
+                    {   
+                        conversations.map((conversation)=>( 
+                            <div className="Chats">   
+                                <img className='ChatImage' src="https://media.istockphoto.com/id/1223671392/es/vector/imagen-de-perfil-predeterminada-avatar-marcador-de-posici%C3%B3n-de-la-foto-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=z7iux2vOeMQ6SJyERGoJZsye3msSp3Nflg_GXMCou3c=" alt="" />
+                                <div className='Name_Message'>
+                                    <h3 className='Name'>{conversation.userName}<span className='HourMessage'>10:45 pm</span></h3>
+                                    <p className='Message'>Hola como estas? <span className='NumberMessage'>1</span></p>
+                                </div>
+                            </div>
+                        ))
+                    }   
                 </div>
             </div>
         </div>

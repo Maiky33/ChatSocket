@@ -106,6 +106,7 @@
     svg{    
         color: aliceblue;
         font-size: 20px;
+        cursor: pointer;
     }
 
     svg:hover{  

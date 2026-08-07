@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import "../components/Styles/userOnlineContainer.css"
 import { VscDebugBreakpointData } from "react-icons/vsc";
 import { useUsers } from '../context/UsersContext';
 import { useAuth } from '../context/AuthContext';
 
-const UserOnlineContainer = () =>{    
+const UserOnlineContainer = (props) =>{    
 
-    const [usersOnline, setUsersOnline] = useState([]);
-    const [allUsers, setAllUsers] = useState([]);
+    const {usersOnline ,setUsersOnline, allUsers, setAllUsers} = props
 
-    const {Socket} = useAuth()
-
+    const {Socket, user} = useAuth()
     const {getAllUsers} = useUsers() 
 
     useEffect(()=>{ 
@@ -20,14 +18,14 @@ const UserOnlineContainer = () =>{
         };
 
         loadUsersOnline();
-    },[getAllUsers])
+    },[getAllUsers, setAllUsers])
 
     useEffect(()=>{ 
         const handleOnlineUsers = (onlineIds) => {
 
             console.log("onlineIds",onlineIds);
 
-            const usersWithStatus = allUsers?.map(user => ({
+            const usersWithStatus = allUsers.filter((User) => (User._id !== user.id))?.map(user => ({
                 ...user,
                 online: onlineIds?.includes(user._id)
             }));
@@ -41,7 +39,7 @@ const UserOnlineContainer = () =>{
             Socket.off("onlineUsers", handleOnlineUsers);
         };
 
-    },[allUsers, Socket])
+    },[allUsers, Socket, setUsersOnline, user])
 
     const onlineCount = usersOnline.filter(user => user.online).length;
 

@@ -1,0 +1,253 @@
+.modalOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+.modalContainer{
+    width: 500px;
+    max-width: 90%;
+
+    background: #1f2937;
+    border-radius: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+}
+
+.modalHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.modalHeader h2{
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.closeModal{
+    width: 35px;
+    height: 35px;
+
+    border: none;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    background: transparent;
+    color: #cfcfcf;
+
+    font-size: 1rem;
+
+    transition: .25s;
+}
+
+.closeModal:hover{
+    background: rgba(255,255,255,.08);
+    color: white;
+}
+
+.modalBody{
+    padding: 22px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.searchUser{
+    width: 100%;
+    height: 45px;
+
+    padding: 0 15px;
+
+    border: none;
+    outline: none;
+
+    border-radius: 12px;
+
+    background: #111827;
+    color: white;
+
+    font-size: .95rem;
+}
+
+.searchUser::placeholder{
+    color: #8b8b8b;
+}
+
+.containerUsers{
+    height: 300px;
+
+    border-radius: 12px;
+
+    background: #111827;
+
+    overflow-y: auto;
+
+    padding: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.containerUsers::-webkit-scrollbar{
+    width: 6px;
+}
+
+.containerUsers::-webkit-scrollbar-thumb{
+    background: #4b5563;
+    border-radius: 50px;
+}
+
+.modalFooter{
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    padding: 18px 22px;
+
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.btnCancel{
+    border: none;
+    cursor: pointer;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    background: #374151;
+    color: white;
+
+    transition: .25s;
+}
+
+.btnCancel:hover{
+    background: #4b5563;
+}
+
+.btnCreate{
+    border: none;
+    cursor: pointer;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: white;
+
+    transition: .25s;
+}
+
+.btnCreate:hover{
+    background: #1d4ed8;
+}
+
+.cardUser{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 12px 15px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .25s ease;
+}
+
+.cardUser:hover{
+    background: #1f2937;
+}
+
+.cardUser.selected{
+    background: #2563eb;
+}
+
+.containerAvatar{
+    position: relative;
+    flex-shrink: 0;
+}
+
+.containerAvatar img{
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.statusDot{
+    position: absolute;
+
+    bottom: 2px;
+    right: 2px;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+    border: 2px solid #111827;
+}
+
+.statusDot.online{
+    background: #22c55e;
+}
+
+.statusDot.offline{
+    background: #6b7280;
+}
+
+.cardUserInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 3px;
+
+    flex: 1;
+}
+
+.userName{
+    color: #fff;
+
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+.userEmail{
+    color: #9ca3af;
+
+    font-size: .8rem;
+}
+
+.cardUser:hover .userName{
+    color: white;
+}
+
+.cardUser:hover .userEmail{
+    color: #d1d5db;
+}

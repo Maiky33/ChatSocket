@@ -5,6 +5,7 @@ import ProfileClass from "./pages/ProfileClass";
 import { AuthProvider } from "./context/AuthContext";
 import { MessageProvider } from "./context/MessageContext";
 import { UsersProvider } from "./context/UsersContext";
+import { ConversationProvider } from "./context/ConversationContext"
 import ProtectedRoute from "./pages/ProtectedRoute";
  
 function App() {
@@ -12,17 +13,19 @@ function App() {
   return (
     <AuthProvider>  
       <UsersProvider> 
-        <MessageProvider> 
-          <BrowserRouter> 
-            <Routes>  
-              <Route path="/" element={<RegisterUser/>}/>
+        <ConversationProvider>  
+          <MessageProvider> 
+            <BrowserRouter> 
+              <Routes>  
+                <Route path="/" element={<RegisterUser/>}/>
 
-              <Route element={<ProtectedRoute/>}> 
-                <Route path="/profileclass" element={<ProfileClass/>}/>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </MessageProvider>
+                <Route element={<ProtectedRoute/>}> 
+                  <Route path="/profileclass" element={<ProfileClass/>}/>
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </MessageProvider>
+        </ConversationProvider>
       </UsersProvider>
     </AuthProvider>
   );

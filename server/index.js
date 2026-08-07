@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 import routerMessage from './routes/Message.js'
 import routerAuth from './routes/Auth.js'
 import routerUsers from './routes/Users.js'
+import routerConversations from './routes/Conversations.js'
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -66,6 +67,9 @@ app.use('/api', routerAuth)
 app.use('/api', routerUsers)
 /// enrrutador de mensajes
 app.use('/api', routerMessage)
+// enrrutador de conversaciones
+app.use('/api', routerConversations)
+
 
 
 const onlineUsers = new Map();
