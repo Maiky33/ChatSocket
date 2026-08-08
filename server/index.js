@@ -11,7 +11,7 @@ import routerAuth from './routes/Auth.js'
 import routerUsers from './routes/Users.js'
 import routerConversations from './routes/Conversations.js'
 
-import Conversation from './models/Conversation.js';
+import Conversation from './models/conversation.js';
 
 import dotenv from "dotenv";
 dotenv.config();
