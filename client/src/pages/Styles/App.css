@@ -209,6 +209,8 @@ body {
     color: beige;
     border-radius: 15px;
     border-bottom-right-radius: 0px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .Messageother{  
@@ -222,6 +224,8 @@ body {
     border-radius: 15px;
     border-bottom-left-radius: 0px;
     color: aliceblue;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .ContainerLoader{   
