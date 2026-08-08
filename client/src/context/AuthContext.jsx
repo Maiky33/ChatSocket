@@ -19,6 +19,7 @@ export const AuthProvider = ({children})=>{
 
     const [user, setUser] = useState(null)
     const [isAuthenticated, setisAuthenticated] = useState(false)
+    const [loading, setLoading] = useState(true);
     const [Errors, setErrors] = useState([])
 
     const API = process.env.REACT_APP_API_URL
@@ -73,21 +74,38 @@ export const AuthProvider = ({children})=>{
         }
     }
 
-    const reloginverifyToken = useCallback(async() => {   
-        try{    
-            const res = await reloginverifyTokenRequest()
-            if(res.status === 200){
-                setUser(res.data)
-                setisAuthenticated(true)
+    const reloginverifyToken = useCallback(async () => {
+
+        try {
+
+            const res = await reloginverifyTokenRequest();
+
+            if (res.status === 200) {
+                setUser(res.data);
+                setisAuthenticated(true);
             }
-            return res
-        }catch(error){   
-            if(Array.isArray(error?.response?.data)){ 
-                return setErrors(error?.response?.data)
+
+            return res;
+
+        } catch (error) {
+
+            if (Array.isArray(error?.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error?.response?.data?.message]);
             }
-            setErrors([error?.response?.data?.message])
+
+        } finally {
+
+            setLoading(false);
+
         }
+
     }, []);
+
+    useEffect(()=>{ 
+        reloginverifyToken()
+    },[reloginverifyToken])
 
     return( 
         <AuthContext.Provider   
@@ -99,6 +117,7 @@ export const AuthProvider = ({children})=>{
                 isAuthenticated,
                 reloginverifyToken,
                 Errors,
+                loading,
                 Socket
             }}>  
             {children}

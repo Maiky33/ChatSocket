@@ -142,6 +142,13 @@
     cursor: pointer;
 }
 
+.ChatsSelected{  
+    background: linear-gradient(180deg, rgb(33 68 75 / 95%) 0%, rgb(23 30 44 / 95%) 100%);
+    border: 1px solid #80808091;
+    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    cursor: pointer;
+}
+
 
 .ChatImage{ 
     width: 50px;

@@ -1,15 +1,16 @@
 import React, {useState} from 'react'
 import "../components/Styles/modalConvesation.css";
 import Swal from 'sweetalert2';
+import { useConversation } from '../context/ConversationContext';
 
 
 const ModalConvesation = (props) =>{    
 
-    const {isOpenModal, setisOpenModal, usersOnline, conversations, setConversations} = props
-
+    const {isOpenModal, setisOpenModal, usersOnline, conversations} = props
+    const { getConversations,saveConversation } = useConversation();
     const [UserSelected, setUserSelected]= useState()
 
-    const conversationsAdd =()=>{   
+    const conversationsAdd = async()=>{   
         if (!UserSelected) return;
 
         const exists = conversations.some(conversation => conversation._id === UserSelected._id);
@@ -26,7 +27,11 @@ const ModalConvesation = (props) =>{
             return;
         }
 
-        setConversations(prev => [...prev, UserSelected]);
+        await saveConversation({receiverId: UserSelected._id})
+
+        await getConversations()
+
+        setUserSelected(null);
         setisOpenModal(false);
     }
 

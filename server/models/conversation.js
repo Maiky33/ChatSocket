@@ -6,9 +6,23 @@ const ConversationSchema = new Schema({
 
     members: [{
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'users',
         required: true
-    }]
+    }],
+
+    lastMessage: {
+        text: {
+            type: String,
+            default: ""
+        },
+        sender: {
+            type: Schema.Types.ObjectId,
+            ref: 'users'
+        },
+        createdAt: {
+            type: Date
+        }
+    }
 
 }, {
     timestamps: true

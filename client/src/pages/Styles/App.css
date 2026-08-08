@@ -223,3 +223,14 @@ body {
     border-bottom-left-radius: 0px;
     color: aliceblue;
 }
+
+.ContainerLoader{   
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #1e1e2e;
+}

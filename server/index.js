@@ -10,6 +10,9 @@ import routerMessage from './routes/Message.js'
 import routerAuth from './routes/Auth.js'
 import routerUsers from './routes/Users.js'
 import routerConversations from './routes/Conversations.js'
+
+import Conversation from './models/Conversation.js';
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -44,7 +47,7 @@ const io = new SocketServer(server, {
 
 app.use(cors({
     origin: clientUrl,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -75,40 +78,79 @@ app.use('/api', routerConversations)
 const onlineUsers = new Map();
 
 // vemos la coneccion de los clientes io.on
-io.on('connection', (socket) => {    
+io.on('connection', (socket) => {
 
-    console.log(socket.id)
-    console.log('cliente conectado')
-
-    // escucha cuando el cliente devuelve el user que se conecto
     socket.on("userConnected", (user) => {
+
+        socket.userId = user.id;
+
         onlineUsers.set(user.id, socket.id);
 
         io.emit("onlineUsers", [...onlineUsers.keys()]);
     });
-    
-    console.log("Users", onlineUsers)
-    
-    //escuchamos el evento "message"(traemos los valosres message , nickname)
-    socket.on('message', (message, nickname) => {  
-        // emitimos los parametros que nos trae al resto de clientes conectados
-        socket.broadcast.emit('message', {   
-            body: message,
-            from: nickname
-        })
-    })
 
-    // escucha cuando el usuario se desconecta y lo eliminamos de onlineUsers
+
+    socket.on("joinConversation", (conversationId) => {
+        socket.join(conversationId);
+    });
+
+
+    socket.on("message", async (message) => {
+
+        try {
+
+            // Buscamos la conversación
+            const conversation = await Conversation.findById(
+                message.conversationId
+            );
+
+            if (!conversation) return;
+
+            // Enviamos el mensaje a quienes tienen abierta la conversación
+            io.to(message.conversationId).emit("message", message);
+
+            // Buscamos los miembros de la conversación
+            conversation.members.forEach((memberId) => {
+
+                const memberSocketId = onlineUsers.get(
+                    memberId.toString()
+                );
+
+                if (memberSocketId) {
+
+                    io.to(memberSocketId).emit(
+                        "conversationUpdated",
+                        message
+                    );
+
+                }
+
+            });
+
+        } catch (error) {
+
+            console.error("Error sending conversation update:", error);
+
+        }
+
+    });
+
+
     socket.on("disconnect", () => {
+
         for (const [userId, socketId] of onlineUsers) {
+
             if (socketId === socket.id) {
                 onlineUsers.delete(userId);
                 break;
             }
+
         }
+
         io.emit("onlineUsers", [...onlineUsers.keys()]);
     });
-})
+
+});
 
 
 //conneccion a la Db y ecuchamos la aplicacion atravez del puerto 4000
