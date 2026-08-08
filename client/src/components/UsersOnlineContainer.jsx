@@ -23,8 +23,15 @@ const UserOnlineContainer = (props) =>{
 
     useEffect(() => {
 
-        const handleOnlineUsers = (onlineIds) => {
+        const handleOnlineUsers = async (onlineIds) => {
+
             setOnlineIds(onlineIds);
+
+            // Volvemos a traer los usuarios porque
+            // puede haber aparecido un usuario nuevo
+            const users = await getAllUsers();
+
+            setAllUsers(users);
         };
 
         Socket.on("onlineUsers", handleOnlineUsers);
@@ -33,7 +40,7 @@ const UserOnlineContainer = (props) =>{
             Socket.off("onlineUsers", handleOnlineUsers);
         };
 
-    }, [Socket]);
+    }, [Socket, getAllUsers, setAllUsers]);
 
     useEffect(() => {
 
