@@ -1,6 +1,6 @@
 import Conversation from '../models/Conversation.js';
 import User from "../models/user.js"
-import Message from "../models/Message.js";
+import Message from "../models/message.js";
 
 const save = async (req, res) => {
 
