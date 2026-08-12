@@ -77,6 +77,9 @@ app.use('/api', routerConversations)
 
 const onlineUsers = new Map();
 
+app.set("io", io);
+app.set("onlineUsers", onlineUsers);
+
 // vemos la coneccion de los clientes io.on
 io.on('connection', (socket) => {
 

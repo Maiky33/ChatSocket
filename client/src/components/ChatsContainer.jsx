@@ -14,13 +14,16 @@ import { useMessage } from '../context/MessageContext.jsx';
 
 const ChatsContainer = (props) =>{    
 
-    const {setMessages,setisOpenModal, setisOpenMainChat, setcurrentConversationOpen, currentConversationOpen} = props
+    const {setMessages,setisOpenModal, setisOpenMainChat,
+    setcurrentConversationOpen, currentConversationOpen} = props
+    
     const {user,Socket} = useAuth()
 
     const {
         conversations,
         getConversations,
-        markConversationAsRead
+        markConversationAsRead,
+        setActiveConversationId
     } = useConversation();
 
     const {
@@ -47,6 +50,8 @@ const ChatsContainer = (props) =>{
 
         Socket.emit("joinConversation", conversation._id);
 
+        setActiveConversationId(conversation._id);
+
         setMessages([]);
         setisOpenMainChat(true);
         setcurrentConversationOpen(conversation);
@@ -58,6 +63,7 @@ const ChatsContainer = (props) =>{
         }
     };
    
+    console.log("CONVERSATIONS:", conversations);
     
     return (    
         <div className='bannerLeft'>   
@@ -93,13 +99,15 @@ const ChatsContainer = (props) =>{
                                 <img className='ChatImage' src="https://media.istockphoto.com/id/1223671392/es/vector/imagen-de-perfil-predeterminada-avatar-marcador-de-posici%C3%B3n-de-la-foto-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=z7iux2vOeMQ6SJyERGoJZsye3msSp3Nflg_GXMCou3c=" alt="" />
                                 <div className='Name_Message'>
                                     <h3 className='Name'>{conversation?.user?.userName}<span className='HourMessage'>{formatHour(conversation?.lastMessage?.createdAt)}</span></h3>
-                                    <p className='Message'>{conversation?.lastMessage?.message} 
+
+                                    <div className='Container_Message_NumberMessage'>   
+                                        <p className={conversation?.unreadCount? 'Message' : 'MessageV2'}>{conversation?.lastMessage?.message}</p>
                                         {conversation?.unreadCount > 0 && (
                                             <span className="NumberMessage">
                                                 {conversation.unreadCount}
                                             </span>
                                         )}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         ))

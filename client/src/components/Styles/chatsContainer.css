@@ -177,16 +177,29 @@
     font-size: 12px;
 }
 
+.Container_Message_NumberMessage{   
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.MessageV2,
 .Message{   
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
+    width: 70%;
     color: aliceblue;
 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.MessageV2{ 
+    width: 100%;
 }
 
 .NumberMessage{

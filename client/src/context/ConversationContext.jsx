@@ -19,11 +19,13 @@ export const useConversation = () => {
 
 export const ConversationProvider = ({ children }) => {
 
-    const { Socket } = useAuth();
+    const { Socket, user } = useAuth();
 
     const [Errors, setErrors] = useState([]);
     // conversacion Actual
     const [conversations, setConversations] = useState([]);
+
+    const [activeConversationId, setActiveConversationId] = useState(null);
 
     const getConversations = useCallback(async () => {
 
@@ -49,14 +51,27 @@ export const ConversationProvider = ({ children }) => {
     useEffect(() => {
 
         const handleConversationUpdated = (message) => {
-            console.log("Nueva actualización:", message);
-            getConversations();
+            updateConversation(message);
         };
 
         Socket.on("conversationUpdated", handleConversationUpdated);
 
         return () => {
             Socket.off("conversationUpdated", handleConversationUpdated);
+        };
+
+    }, [Socket, activeConversationId]);
+
+    useEffect(() => {
+
+        const handleConversationCreated = () => {
+            getConversations();
+        };
+
+        Socket.on("conversationCreated", handleConversationCreated);
+
+        return () => {
+            Socket.off("conversationCreated", handleConversationCreated);
         };
 
     }, [Socket, getConversations]);
@@ -82,8 +97,7 @@ export const ConversationProvider = ({ children }) => {
 
     };
 
-    const updateConversation = (message, currentConversationId) => {
-
+    const updateConversation = useCallback((message) => {
         setConversations(prevConversations =>
             prevConversations.map(conversation => {
 
@@ -92,7 +106,7 @@ export const ConversationProvider = ({ children }) => {
                 }
 
                 const isChatOpen =
-                    conversation._id === currentConversationId;
+                    conversation._id === activeConversationId;
 
                 return {
                     ...conversation,
@@ -104,7 +118,7 @@ export const ConversationProvider = ({ children }) => {
                 };
             })
         );
-    };
+    }, [activeConversationId]);
 
     const markConversationAsRead = (conversationId) => {
 
@@ -133,6 +147,7 @@ export const ConversationProvider = ({ children }) => {
                 saveConversation,
                 updateConversation,
                 markConversationAsRead,
+                setActiveConversationId,
                 Errors
             }}
         >

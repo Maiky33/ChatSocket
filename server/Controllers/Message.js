@@ -58,6 +58,42 @@ const Controller = {
 
     }
 
+  },
+
+  markAsRead: async (req, res) => {
+
+    try {
+
+        const userId = req.user.sub;
+        const { conversationId } = req.params;
+
+        await Message.updateMany(
+            {
+                conversationId,
+                sender: { $ne: userId },
+                read: false
+            },
+            {
+                $set: {
+                    read: true
+                }
+            }
+        );
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'Messages marked as read'
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            status: 'error',
+            message: error.message
+        });
+
+    }
+  
   }
 };
 

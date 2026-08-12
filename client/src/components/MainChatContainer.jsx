@@ -23,10 +23,14 @@ const MainChatContainer = (props) =>{
   const [InputMessage, setInputMessage] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   
-  const {Messages, setMessages ,currentConversationOpen,setcurrentConversationOpen, usersOnline, setisOpenMainChat} = props
+  const {Messages, setMessages ,currentConversationOpen,
+  setcurrentConversationOpen, usersOnline, setisOpenMainChat} = props
+
   const {saveMessage, getMessages} = useMessage()
   const {Socket,user} = useAuth() 
-  const {updateConversation} = useConversation();
+  const {setActiveConversationId} = useConversation() 
+
+  
 
 
   useEffect(() => {
@@ -58,11 +62,6 @@ const MainChatContainer = (props) =>{
         message,
         ...prevMessages
       ]);
-
-      updateConversation(
-        message,
-        currentConversationOpen?._id
-      );
     };
 
     Socket.on("message", receivedMessage);
@@ -71,7 +70,7 @@ const MainChatContainer = (props) =>{
       Socket.off("message", receivedMessage);
     };
 
-  }, [Socket, currentConversationOpen, setMessages,updateConversation]);
+  }, [Socket, currentConversationOpen, setMessages]);
 
 
   const MessageSubmit = async (e) => {
@@ -95,6 +94,7 @@ const MainChatContainer = (props) =>{
   };
 
   const onClickExMainChat = ()=>{ 
+    setActiveConversationId(null)
     setcurrentConversationOpen(null)
     setisOpenMainChat(false)
   }

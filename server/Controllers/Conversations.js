@@ -40,6 +40,18 @@ const save = async (req, res) => {
         // la guardamos en base de datos 
         const conversationSaved = await conversation.save();
 
+        const io = req.app.get("io");
+        const onlineUsers = req.app.get("onlineUsers");
+
+        const receiverSocketId = onlineUsers.get(receiverId);
+
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit(
+                "conversationCreated",
+                conversationSaved
+            );
+        }
+
         // y respondemos con la conversacion guardada
         return res.status(201).json({
             status: 'success',
@@ -127,45 +139,7 @@ const getConversations = async (req, res) => {
 };
 
 
-
-const  markAsRead = async (req, res) => {
-
-    try {
-
-        const userId = req.user.sub;
-        const { conversationId } = req.params;
-
-        await Message.updateMany(
-            {
-                conversationId,
-                sender: { $ne: userId },
-                read: false
-            },
-            {
-                $set: {
-                    read: true
-                }
-            }
-        );
-
-        return res.status(200).json({
-            status: 'success',
-            message: 'Messages marked as read'
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            status: 'error',
-            message: error.message
-        });
-
-    }
-  
-}
-
 export default {
     save,
-    getConversations,
-    markAsRead
+    getConversations
 };

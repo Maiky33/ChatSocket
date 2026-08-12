@@ -9,6 +9,7 @@ const router = express.Router()
 
 router.post('/messages', authRequired, Controller.save);
 router.get('/messages/:conversationId', authRequired, Controller.getMessages);
+router.patch('/messages/read/:conversationId',authRequired,Controller.markAsRead);
 
 
 export default router
