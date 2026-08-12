@@ -19,7 +19,7 @@ export const useConversation = () => {
 
 export const ConversationProvider = ({ children }) => {
 
-    const { Socket, user } = useAuth();
+    const { Socket } = useAuth();
 
     const [Errors, setErrors] = useState([]);
     // conversacion Actual
@@ -48,19 +48,7 @@ export const ConversationProvider = ({ children }) => {
 
     }, []);
 
-    useEffect(() => {
-
-        const handleConversationUpdated = (message) => {
-            updateConversation(message);
-        };
-
-        Socket.on("conversationUpdated", handleConversationUpdated);
-
-        return () => {
-            Socket.off("conversationUpdated", handleConversationUpdated);
-        };
-
-    }, [Socket, activeConversationId]);
+    
 
     useEffect(() => {
 
@@ -119,6 +107,20 @@ export const ConversationProvider = ({ children }) => {
             })
         );
     }, [activeConversationId]);
+
+    useEffect(() => {
+
+        const handleConversationUpdated = (message) => {
+            updateConversation(message);
+        };
+
+        Socket.on("conversationUpdated", handleConversationUpdated);
+
+        return () => {
+            Socket.off("conversationUpdated", handleConversationUpdated);
+        };
+
+    }, [Socket, activeConversationId, updateConversation]);
 
     const markConversationAsRead = (conversationId) => {
 
