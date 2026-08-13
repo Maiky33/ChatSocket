@@ -179,7 +179,7 @@
 .userNameText{  
     color: aliceblue;
     font-size: 25px;
-    font-family: cursive;
+    
 }
 .errorData{ 
     color: #eb6767;
@@ -192,7 +192,7 @@
     background-color: #62d5c4;
     color: aliceblue;
     font-weight: bold;
-    font-family: cursive;
+    
     cursor:pointer;
 }
 
