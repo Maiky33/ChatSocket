@@ -17,7 +17,7 @@
 }
 .ImageText{ 
     font-size: 45px;
-    font-family:cursive;
+    
     color: aliceblue;
     text-align: center;
 
@@ -89,7 +89,7 @@
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     background-color: #4c5d70;
-    font-family:cursive;
+    
     color: aliceblue;
     border: none;
     cursor: pointer;
@@ -100,7 +100,7 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     background-color: #4c5d70;
-    font-family:cursive;
+    
     color: aliceblue;
     border: none;
     cursor: pointer;
@@ -118,7 +118,7 @@
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     background-color: #62d5c4;
-    font-family:cursive;
+    
     color: aliceblue;
     border: none;
 }
@@ -128,7 +128,7 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     background-color: #62d5c4;
-    font-family:cursive;
+    
     color: aliceblue;
     border: none;
 }

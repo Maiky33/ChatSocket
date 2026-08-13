@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 *{  
     margin: 0px;
     padding: 0px;
-    font-family: cursive; 
+    font-family: 'Poppins', sans-serif;
 }
 
 html,
@@ -64,7 +66,7 @@ body {
     gap:10px;
     font-size: 30px;
     color: aliceblue;
-    font-family: cursive;
+    
     svg{    
         font-size: 36px;
         color: #62d5c4;
@@ -90,7 +92,7 @@ body {
     background-color: #62d5c4;
     color: aliceblue;
     font-weight: bold;
-    font-family: cursive;
+    
     cursor:pointer;
     font-size: 17px;
 
@@ -199,7 +201,7 @@ body {
     background-color: #62d5c4;
     color: aliceblue;
     font-weight: bold;
-    font-family: cursive;
+    
     cursor:pointer;
 
     font-size: 26px;
