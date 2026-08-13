@@ -61,6 +61,18 @@ const ChatsContainer = (props) =>{
         if (success) {
             markConversationAsRead(conversation._id);
         }
+
+        scrollToSection("ContainerVideoAndChat")
+    };
+
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
     };
    
     console.log("CONVERSATIONS:", conversations);

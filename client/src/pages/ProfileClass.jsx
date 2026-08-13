@@ -60,7 +60,7 @@ function ProfileClass() {
             LogOut
           </button>
         </div>
-        <div className="ContainerVideoAndChat"> 
+        <div id="ContainerVideoAndChat" className="ContainerVideoAndChat"> 
 
           {!isOpenMainChat || isDesktop?  
             <ChatsContainer setMessages={setMessages} currentConversationOpen={currentConversationOpen} setcurrentConversationOpen={setcurrentConversationOpen} setisOpenMainChat={setisOpenMainChat} setisOpenModal={setisOpenModal} />:
