@@ -8,7 +8,7 @@ import { RxPlusCircled } from "react-icons/rx";
 import { useAuth } from '../context/AuthContext';
 import { useConversation } from "../context/ConversationContext.jsx";
 import { useMessage } from '../context/MessageContext.jsx';
-
+import {scrollToSection} from "../utils/scrollToSection.jsx"
 
 
 
@@ -65,17 +65,6 @@ const ChatsContainer = (props) =>{
         scrollToSection("ContainerVideoAndChat")
     };
 
-    const scrollToSection = (id) => {
-        const element = document.getElementById(id);
-
-        if (element) {
-            element.scrollIntoView({
-                behavior: "smooth",
-            });
-        }
-    };
-   
-    console.log("CONVERSATIONS:", conversations);
     
     return (    
         <div className='bannerLeft'>   

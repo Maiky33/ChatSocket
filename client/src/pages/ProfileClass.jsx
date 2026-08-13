@@ -49,7 +49,7 @@ function ProfileClass() {
         isOpenModal={isOpenModal} setisOpenModal={setisOpenModal}
       />
 
-        <div className="ContainerTitleLogOut"> 
+        <div id="Navbar" className="ContainerTitleLogOut"> 
           <div className="title"> 
             <IoChatbubblesSharp />
             ChatSocket

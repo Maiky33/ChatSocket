@@ -13,6 +13,7 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useAuth } from '../context/AuthContext';
 import { useMessage } from '../context/MessageContext';
 import { useConversation } from '../context/ConversationContext';
+import {scrollToSection} from "../utils/scrollToSection.jsx"
 
 
 
@@ -110,6 +111,7 @@ const MainChatContainer = (props) =>{
     setActiveConversationId(null)
     setcurrentConversationOpen(null)
     setisOpenMainChat(false)
+    scrollToSection("Navbar")
   }
 
   const onEmojiClick = (emojiData) => {
