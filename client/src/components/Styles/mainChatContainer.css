@@ -24,3 +24,10 @@
     }
 
 }
+
+@media (max-width: 1118px) {    
+    .main_Chat_Close{ 
+        width: 95%;
+        height: 100vh;
+    }
+}

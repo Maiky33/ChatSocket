@@ -12,7 +12,7 @@ import ChatsContainer from "../components/ChatsContainer.jsx"
 import UserOnlineContainer from "../components/UsersOnlineContainer.jsx"
 import ModalConvesation from "../components/ModalConvesation.jsx"
 import MainChatContainer from "../components/MainChatContainer.jsx"
-
+import { useMediaQuery } from "react-responsive";
 
 
 
@@ -37,6 +37,9 @@ function ProfileClass() {
   const [usersOnline, setUsersOnline] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
+  const isDesktop = useMediaQuery({ minWidth: 1118 });
+  const isPhone = useMediaQuery({ minWidth: 552 });
+
   
 
   return (
@@ -58,13 +61,24 @@ function ProfileClass() {
           </button>
         </div>
         <div className="ContainerVideoAndChat"> 
-          <ChatsContainer setMessages={setMessages} currentConversationOpen={currentConversationOpen} setcurrentConversationOpen={setcurrentConversationOpen} setisOpenMainChat={setisOpenMainChat} setisOpenModal={setisOpenModal} />
+
+          {!isOpenMainChat || isDesktop?  
+            <ChatsContainer setMessages={setMessages} currentConversationOpen={currentConversationOpen} setcurrentConversationOpen={setcurrentConversationOpen} setisOpenMainChat={setisOpenMainChat} setisOpenModal={setisOpenModal} />:
+            null
+          }
 
           {isOpenMainChat?  
-            <MainChatContainer Messages={Messages} setMessages={setMessages} setisOpenMainChat={setisOpenMainChat} usersOnline={usersOnline} currentConversationOpen={currentConversationOpen} setcurrentConversationOpen={setcurrentConversationOpen}/>:
+            <MainChatContainer 
+              Messages={Messages} setMessages={setMessages} 
+              setisOpenMainChat={setisOpenMainChat} usersOnline={usersOnline} 
+              currentConversationOpen={currentConversationOpen} setcurrentConversationOpen={setcurrentConversationOpen}
+            />:null
+          }
+
+          { !isOpenMainChat && isPhone?  
             <div className="main_Chat_Close"> 
               <h1><p>Start chatting:</p>create or open a conversation right now.</h1>
-            </div>
+            </div>: null
           }
 
           <UserOnlineContainer 

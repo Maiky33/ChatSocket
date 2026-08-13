@@ -61,7 +61,7 @@ function RegisterUser() {
         <img className="ImageRegister" src={LogoRegister} alt="" />
       </div>
 
-      <div className="ContainerForm"> 
+      <div className="ContainerFormRegister"> 
         <div className="containeButtonsRegiter"> 
           <button onClick={onSubmitSingUp} className={!formState ? "ButtonSelectedButtonSingUp" : "ButtonSingUp"} type="submit">Sing Up</button>
           <button onClick={onSubmitSingIn} className={formState? "ButtonSelectedButtonSingIn" : "ButtonSingIn"} type="submit">Sing In</button>

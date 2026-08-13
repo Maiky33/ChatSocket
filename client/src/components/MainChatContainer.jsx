@@ -26,7 +26,7 @@ const MainChatContainer = (props) =>{
   const {Messages, setMessages ,currentConversationOpen,
   setcurrentConversationOpen, usersOnline, setisOpenMainChat} = props
 
-  const {saveMessage, getMessages} = useMessage()
+  const {saveMessage, getMessages, markMessagesAsRead} = useMessage()
   const {Socket,user} = useAuth() 
   const {setActiveConversationId} = useConversation() 
 
@@ -56,12 +56,20 @@ const MainChatContainer = (props) =>{
 
   useEffect(() => {
 
-    const receivedMessage = (message) => {
+    const receivedMessage = async (message) => {
 
       setMessages(prevMessages => [
         message,
         ...prevMessages
       ]);
+
+      // Si el mensaje pertenece al chat que está abierto
+      if (
+        currentConversationOpen?._id === message.conversationId
+      ) {
+        await markMessagesAsRead(message.conversationId);
+      }
+
     };
 
     Socket.on("message", receivedMessage);
@@ -70,7 +78,12 @@ const MainChatContainer = (props) =>{
       Socket.off("message", receivedMessage);
     };
 
-  }, [Socket, currentConversationOpen, setMessages]);
+  }, [
+    Socket,
+    currentConversationOpen,
+    setMessages,
+    markMessagesAsRead
+  ]);
 
 
   const MessageSubmit = async (e) => {

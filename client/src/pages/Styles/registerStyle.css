@@ -25,6 +25,7 @@
 .ImageRegister{
     width: 70%;
 }
+.ContainerFormRegister,
 .ContainerForm{ 
     width: 785px;
     
@@ -40,6 +41,10 @@
     border: 1px #ffffff10 solid;
     height: 100%;
 
+}
+
+.ContainerFormRegister{ 
+    border-radius: 0px;
 }
 
 .containerNavFromChat{  
@@ -199,6 +204,13 @@
     height: 100%;
 }
 
+@media screen and (max-width: 1118px) {  
+    .ContainerForm{ 
+        width: 95%;
+    }
+}
+
+
 @media screen and (max-width: 912px) {  
     .ContainerFromRegisterImage{    
         flex-direction: column;
@@ -208,13 +220,19 @@
         height: 330px;
         padding: 30px;
     }
-    .ImageRegister{ 
-        width: 200px;
-    }
 
-    .ContainerForm{ 
+    .ContainerFormRegister{ 
         width: 100%;
         padding: 70px 30px;
+        border-radius: 0px;
+    }
+
+    .FormContain{   
+        width: 90%;
+    }
+    
+    .ImageRegister{ 
+        width: 200px;
     }
 
     .containeButtonsRegiter{    
